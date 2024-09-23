@@ -1,0 +1,34 @@
+import {defineConfig} from 'vite'
+import react from '@vitejs/plugin-react'
+import dts from 'vite-plugin-dts'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+    plugins: [
+        react(),
+        dts({
+            include: ["lib"],
+        })
+    ],
+    build: {
+        outDir: './dist',
+        lib: {
+            entry: './lib/index.ts',
+            name: 'xieReactUi',
+            formats: ['es'],
+            fileName: (format) => `xie-react-ui.${format}.js`
+        },
+        rollupOptions: {
+            external: ['react', 'react-dom', "react/jsx-runtime", "@emotion/react", "@emotion/styled"],
+            output: {
+                globals: {
+                    react: 'React',
+                    'react-dom': 'ReactDOM',
+                    "react/jsx-runtime": "jsxRuntime",
+                    "@emotion/react": "emotionReact",
+                    "@emotion/styled": "emotionStyled"
+                }
+            }
+        }
+    }
+})
