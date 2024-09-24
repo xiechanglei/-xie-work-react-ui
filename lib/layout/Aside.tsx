@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import React, {FC, useContext} from "react";
-import {Direction} from "../global/enums.ts";
-import {formatSize} from "../global/format.ts";
-import {ContainerContext} from "./Container.tsx";
+import {Direction} from "../global/enums";
+import {formatSize} from "../global/format";
+import {ContainerContext} from "./Container";
 
 type AsideProps = {
     size?: number | string // 侧边栏的大小

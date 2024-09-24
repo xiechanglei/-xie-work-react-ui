@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import styled from "@emotion/styled";
-import {Direction} from "../global/enums.ts";
-import {formatSize} from "../global/format.ts";
+import {Direction} from "../global/enums";
+import {formatSize} from "../global/format";
 
 export const ContainerContext = React.createContext<{ direction?: Direction, gap?: number | string }>({})
 
