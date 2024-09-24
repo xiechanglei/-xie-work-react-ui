@@ -6,17 +6,22 @@ import {ContainerContext} from "./Container";
 
 type AsideProps = {
     size?: number | string // 侧边栏的大小
-    direction?: "row" | "column" // 侧边栏的内部元素的排列方向
+    flex?: "row" | "column" // 侧边栏的内部元素的排列方向
+    align?: "center" | "flex-start" | "flex-end" | "stretch" | "baseline" // 容器的子元素的对齐方式
+    justify?: "center" | "flex-start" | "flex-end" | "space-between" | "space-around" | "space-evenly" // 容器的子元素的对齐方式
 }
 
 const StyledAside = styled.div<AsideProps & { parentDirection?: Direction, gap?: string | number }>`
     box-sizing: border-box;
     ${props => {
-        if (props.direction !== undefined) {
+        // 认为当flex，align，justify设置了一个的时候，就是设置为flex布局
+        if (props.flex !== undefined || props.align !== undefined || props.justify !== undefined) {
             return `
                 display: flex;
                 flex-wrap: wrap;
-                flex-direction: ${props.direction};
+                flex-direction: ${props.flex ?? "row"};
+                justify-content: ${props.justify ?? "flex-start"};
+                align-items: ${props.align ?? "flex-start"};
             `
         }
     }}
@@ -24,7 +29,6 @@ const StyledAside = styled.div<AsideProps & { parentDirection?: Direction, gap?:
         if (props.gap !== undefined && props.parentDirection !== undefined) {
             return `
                 &:not(:last-child){
-                    ${props.parentDirection === "row" ? "color:red;" : "color:green;"};
                     ${props.parentDirection === "row" ? "margin-right" : "margin-bottom"}: ${formatSize(props.gap)};
                 }
             `
@@ -52,11 +56,17 @@ const StyledAside = styled.div<AsideProps & { parentDirection?: Direction, gap?:
         }
     }}
 `
-
+/**
+ * 侧边栏组件,
+ * @param props
+ * @constructor
+ */
 export const Aside: FC<AsideProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
     const containerCtx = useContext(ContainerContext)
-    const direction = props.direction ?? "row"
-    return <ContainerContext.Provider value={{direction, gap: containerCtx.gap}}>
-        <StyledAside {...props} direction={direction} parentDirection={containerCtx.direction} gap={containerCtx.gap}/>
+    if (props.flex === undefined) {
+        return <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.gap}/>
+    }
+    return <ContainerContext.Provider value={{direction: props.flex, gap: containerCtx.gap}}>
+        <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.gap}/>
     </ContainerContext.Provider>
 }

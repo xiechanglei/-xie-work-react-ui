@@ -7,6 +7,16 @@ import {fileURLToPath} from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    // 转发
+    server: {
+        proxy: {
+            '/font/boxicon': {
+                target: 'http://view.jqueryfuns.com/2023/3/6/499645bc04e396f0b7bf573bdbe46f0d/static/font/',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/font\/boxicon/, '')
+            }
+        }
+    },
     plugins: [
         react(),
         dts({
