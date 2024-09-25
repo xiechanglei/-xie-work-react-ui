@@ -1,7 +1,8 @@
 import React, {FC} from "react";
 import styled from "@emotion/styled";
-import {Direction} from "../global/enums";
-import {formatSize} from "../global/format";
+import {Direction} from "../../global/enums";
+import {formatSize} from "../../global/format";
+import {ThemeConfig, useTheme} from "../../theme";
 
 export const ContainerContext = React.createContext<{ direction?: Direction, gap?: number | string }>({})
 
@@ -19,7 +20,7 @@ type ContainerProps = {
 /**
  * 容器组件的基础样式
  */
-const StyledContainer = styled.div<ContainerProps>`
+const StyledContainer = styled.div<ContainerProps & { theme: ThemeConfig }>`
     width: 100%;
     height: 100%;
     display: flex;
@@ -28,12 +29,13 @@ const StyledContainer = styled.div<ContainerProps>`
     box-sizing: border-box;
     align-items: ${props => props.align ?? "flex-start"};
     justify-content: ${props => props.justify ?? "flex-start"};
+    background: ${props => props.theme.primary + "10"};
     ${props => {
         if (props.gap !== undefined) {
             return `
-            padding: ${formatSize(props.gap)};
+              padding: ${formatSize(props.gap)};
                 > *:not(:last-child) {
-                    ${props.flex === "row" ? "margin-right" : "margin-bottom"}: ${formatSize(props.gap)};
+                     ${props.flex === "row" ? "margin-right" : "margin-bottom"}: ${formatSize(props.gap)};
                 }
             `
         }
@@ -47,7 +49,8 @@ const StyledContainer = styled.div<ContainerProps>`
 export const Container: FC<ContainerProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
     const direction = props.flex ?? "row"
     const gap = props.gap
+    const theme = useTheme()
     return <ContainerContext.Provider value={{direction, gap}}>
-        <StyledContainer {...props} flex={direction}/>
+        <StyledContainer {...props} flex={direction} theme={theme}/>
     </ContainerContext.Provider>
 }

@@ -1,18 +1,22 @@
 import styled from "@emotion/styled";
 import React, {FC, useContext} from "react";
-import {Direction} from "../global/enums";
-import {formatSize} from "../global/format";
-import {ContainerContext} from "./Container";
+import {Direction} from "../../global/enums";
+import {formatSize} from "../../global/format";
+import {ContainerContext} from "../Container";
+import {ThemeConfig, useTheme} from "../../theme";
 
 type AsideProps = {
-    size?: number | string // 侧边栏的大小
+    size?: number | string | "auto"// 侧边栏的大小
     flex?: "row" | "column" // 侧边栏的内部元素的排列方向
     align?: "center" | "flex-start" | "flex-end" | "stretch" | "baseline" // 容器的子元素的对齐方式
     justify?: "center" | "flex-start" | "flex-end" | "space-between" | "space-around" | "space-evenly" // 容器的子元素的对齐方式
 }
 
-const StyledAside = styled.div<AsideProps & { parentDirection?: Direction, gap?: string | number }>`
+const StyledAside = styled.div<AsideProps & { parentDirection?: Direction, gap?: string | number, theme: ThemeConfig }>`
     box-sizing: border-box;
+    background: ${props => props.theme.background};
+    padding: ${props => props.theme.contentPadding};
+    border-radius: ${props => props.theme.borderRadius};
     ${props => {
         // 认为当flex，align，justify设置了一个的时候，就是设置为flex布局
         if (props.flex !== undefined || props.align !== undefined || props.justify !== undefined) {
@@ -29,7 +33,7 @@ const StyledAside = styled.div<AsideProps & { parentDirection?: Direction, gap?:
         if (props.gap !== undefined && props.parentDirection !== undefined) {
             return `
                 &:not(:last-child){
-                    ${props.parentDirection === "row" ? "margin-right" : "margin-bottom"}: ${formatSize(props.gap)};
+                     ${props.parentDirection === "row" ? "margin-right" : "margin-bottom"}: ${formatSize(props.gap)};
                 }
             `
         }
@@ -61,12 +65,19 @@ const StyledAside = styled.div<AsideProps & { parentDirection?: Direction, gap?:
  * @param props
  * @constructor
  */
-export const Aside: FC<AsideProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
+export const ContentAside: FC<AsideProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
     const containerCtx = useContext(ContainerContext)
+    const theme = useTheme();
     if (props.flex === undefined) {
-        return <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.gap}/>
+        return <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.gap} theme={theme}/>
     }
     return <ContainerContext.Provider value={{direction: props.flex, gap: containerCtx.gap}}>
-        <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.gap}/>
+        <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.gap} theme={theme}/>
     </ContainerContext.Provider>
 }
+
+export const LayoutAside = styled(ContentAside)`
+    padding: 0;
+    background: none;
+    border-radius: none;
+`
