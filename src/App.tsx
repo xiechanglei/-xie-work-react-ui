@@ -13,7 +13,8 @@ import {
     VpnKeyTwoTone,
     BadgeTwoTone,
     CardTravelTwoTone,
-    CloudTwoTone
+    CloudTwoTone,
+    AnalyticsTwoTone
 } from '@mui/icons-material';
 import {useState} from "react";
 import {setTheme} from "../lib";
@@ -62,16 +63,87 @@ const menuData = [
         id: "2",
         icon: <AssignmentIndTwoTone/>,
         title: 'Apps',
+        children: [
+            {
+                id: "2-1",
+                icon: <CottageTwoTone/>,
+                title: 'Login',
+                children: [
+                    {
+                        id: "2-1-1",
+                        icon: <CottageTwoTone/>,
+                        title: 'Login',
+                    },
+                    {
+                        id: "2-2-1",
+                        icon: <AssignmentIndTwoTone/>,
+                        title: 'Register',
+                    },
+                    {
+                        id: "2-3-1",
+                        icon: <SettingsTwoTone/>,
+                        title: 'Email Verification',
+                    }
+                ]
+            }
+        ]
     },
     {
         id: "3",
         icon: <SettingsTwoTone/>,
-        title: 'Authentication',
+        title: 'Authentication', children: [
+            {
+                id: "3-1",
+                icon: <CottageTwoTone/>,
+                title: 'Login',
+                children: [
+                    {
+                        id: "3-1-1",
+                        icon: <CottageTwoTone/>,
+                        title: 'Login',
+                    },
+                    {
+                        id: "3-2-1",
+                        icon: <AssignmentIndTwoTone/>,
+                        title: 'Register',
+                    },
+                    {
+                        id: "3-3-1",
+                        icon: <SettingsTwoTone/>,
+                        title: 'Email Verification',
+                    }
+                ]
+            }
+        ]
     },
     {
         id: "4",
         icon: <ListAltTwoTone/>,
         title: 'Pages',
+        children: [
+            {
+                id: "4-1",
+                icon: <CottageTwoTone/>,
+                title: 'Login',
+                children: [
+                    {
+                        id: "4-1-1",
+                        icon: <CottageTwoTone/>,
+                        title: 'Login',
+                    },
+                    {
+                        id: "4-2-1",
+                        icon: <AssignmentIndTwoTone/>,
+                        title: 'Register',
+                    },
+                    {
+                        id: "4-3-1",
+                        icon: <SettingsTwoTone/>,
+                        title: 'Email Verification',
+                    }
+                ]
+            }
+        ]
     }, {
         id: "5",
         icon: <TvTwoTone/>,
@@ -100,6 +172,10 @@ const menuData = [
         id: "10",
         icon: <VpnKeyTwoTone/>,
         title: 'Multi Level',
+    }, {
+        id: "11",
+        icon: <AnalyticsTwoTone/>,
+        title: 'Charts',
     }
 ]
 
@@ -118,22 +194,26 @@ const ToggleThemeButton = styled.div`
 
 export const App = () => {
     const [themeStatus, setThemeStatus] = useState(true)
+    const [iconMode, setIconMode] = useState(false)
     const toggleTheme = () => {
+        setTheme({model: themeStatus ? "dark" : "light"})
         setThemeStatus(!themeStatus)
     }
-    setTheme({model: themeStatus ? "light" : "dark"})
+    const toggleIconMode = () => {
+        setIconMode(!iconMode)
+    }
     return (
-
-        <Container flex="column" gap={1}>
+        <Container flex={"column"} gap={1}>
             <ToggleThemeButton onClick={toggleTheme}>change theme</ToggleThemeButton>
-            <ContentAside size={50} align="center">
+            <ContentAside size={50}>
+                header
             </ContentAside>
-            <LayoutAside flex="row">
-                <ContentAside size="auto">
-                    <TreeMenu menuData={menuData} iconMode={true}/>
+            <LayoutAside flex={"row"}>
+                <ContentAside size={"auto"}>
+                    <TreeMenu menuData={menuData} iconMode={iconMode} minWidth={220} onOpenMenu={console.log}/>
                 </ContentAside>
                 <ContentAside>
-
+                    <button onClick={toggleIconMode}>click me</button>
                 </ContentAside>
             </LayoutAside>
         </Container>

@@ -24,7 +24,7 @@ const StyledContainer = styled.div<ContainerProps & { theme: ThemeConfig }>`
     width: 100%;
     height: 100%;
     display: flex;
-    flex-wrap: wrap;
+    overflow: hidden;
     flex-direction: ${props => props.flex};
     box-sizing: border-box;
     align-items: ${props => props.align ?? "flex-start"};
