@@ -69,13 +69,13 @@ export const NavMenuTitle = styled.div<{ theme: ThemeConfig }>`
         transition: background ease .3s;
 
         svg {
-            font-size: 1.2em !important;
+            font-size: 1.4em !important;
         }
     }
 
     &.active .nav-menu-icon {
         color: ${props => props.theme.primary};
-        background: ${props => props.theme.primary + "30"};
+        background: ${props => props.theme.primary + "40"};
     }
 
     .menu-title {
