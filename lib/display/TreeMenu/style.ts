@@ -5,7 +5,7 @@ import {ThemeConfig} from "../../theme";
  * 树形菜单样式
  */
 export const TreeMenuWrapper = styled.div<{ theme: ThemeConfig }>`
-    font-size: 13px;
+    font-size: 14rem;
     box-sizing: border-box;
     overflow: hidden;
     transition: padding, width, min-width ease 0.3s;
@@ -13,7 +13,7 @@ export const TreeMenuWrapper = styled.div<{ theme: ThemeConfig }>`
     &.sub-menu.fixed {
         ${props => {
             return `
-                    padding:0.5em;
+                    padding:${props.theme.contentPadding};
                     position:absolute;
                     box-shadow:${props.theme.boxShadow};
                     background:${props.theme.background};
@@ -47,9 +47,8 @@ export const NavMenuTitle = styled.div<{ theme: ThemeConfig }>`
     display: flex;
     align-items: center;
     line-height: 2em;
-    height: 2.2em;
+    height: 2em;
     user-select: none;
-    font-size: 1.1em;
     padding: 5px;
     transition: color ease .3s;
     font-weight: bold;
@@ -79,14 +78,14 @@ export const NavMenuTitle = styled.div<{ theme: ThemeConfig }>`
     }
 
     .menu-title {
-        margin-right: 1em;
-        margin-left: 1em;
+        margin-right: 0.5em;
+        margin-left: 0.5em;
         transition: transform, opacity ease 0.3s;
     }
 
     .menu-arrow {
         margin-left: auto;
-        transition: transform, opacity ease 0.3s;
+        transition: all ease 0.3s;
         font-size: 1.5em !important;
     }
 `

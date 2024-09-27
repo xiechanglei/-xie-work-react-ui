@@ -1,5 +1,7 @@
 import {useEffect, useId, useState} from "react";
 
+export const UI_PREFIX = "xui-";
+
 export type ThemeConfig = {
     model?: "dark" | "light",// 主题模式
     borderRadius?: string, // 边框圆角
@@ -20,7 +22,7 @@ const darkTheme: ThemeConfig = {
     model: "dark",
     background: "#313533",
     subText: "#99a4b1",
-    boxShadow: "0 0 10px #000",
+    boxShadow: "0 0 5rem #000",
 }
 
 // 浅色主题必须要修改的配置
@@ -28,7 +30,7 @@ const lightTheme: ThemeConfig = {
     model: "light",
     background: "#ffffff",
     subText: "#545a6d",
-    boxShadow: "0 0 5px #aaa",
+    boxShadow: "0 0 5rem #aaa",
 }
 
 
@@ -38,11 +40,11 @@ const themeConfig: ThemeConfig = {
     primary: "#5156be",
     // borderRadius: "0.2em",
     borderRadius: "none",
-    contentPadding: "0.2em",
+    contentPadding: "5rem",
 }
-
-
 const themeChangeCallbacks = new Map<string, () => void>()
+
+
 export const setTheme = (config: ThemeConfig) => {
     if (config.model === "dark") {
         Object.assign(themeConfig, darkTheme)
@@ -55,6 +57,7 @@ export const setTheme = (config: ThemeConfig) => {
     }
 }
 
+
 export const useTheme = () => {
     const id = useId();
     const [theme, setTheme] = useState(themeConfig);
@@ -66,3 +69,18 @@ export const useTheme = () => {
     }, [])
     return theme
 }
+
+const autoSetRem = () => {
+    // const baseSize = 14;
+    // const baseWidth = 1920;
+    // const clientWidth = document.documentElement.clientWidth;
+    document.documentElement.style.fontSize = "1px";
+}
+
+
+window.addEventListener("resize", () => {
+    // todo 防抖
+    autoSetRem();
+});
+
+autoSetRem();

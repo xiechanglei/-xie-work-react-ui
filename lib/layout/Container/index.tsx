@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import {Direction} from "../../global/enums";
 import {formatSize} from "../../global/format";
 import {ThemeConfig, useTheme} from "../../theme";
+import {mixinClassName} from "../../global/components.ts";
 
 export const ContainerContext = React.createContext<{ direction?: Direction, gap?: number | string }>({})
 
@@ -51,6 +52,6 @@ export const Container: FC<ContainerProps & React.HTMLAttributes<HTMLDivElement>
     const gap = props.gap
     const theme = useTheme()
     return <ContainerContext.Provider value={{direction, gap}}>
-        <StyledContainer {...props} flex={direction} theme={theme}/>
+        <StyledContainer {...props} flex={direction} theme={theme} className={mixinClassName(props, "container")}/>
     </ContainerContext.Provider>
 }

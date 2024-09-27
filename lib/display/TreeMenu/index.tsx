@@ -4,6 +4,7 @@ import {TreeMenuItemProps, TreeMenuListProps, TreeMenuProps} from "./type";
 import {ChevronRightRounded as ChevronRight} from "@mui/icons-material";
 import {useTheme} from "../../theme";
 import {formatSize} from "../../global/format.ts";
+import {uiClassName} from "../../global/components.ts";
 
 
 const formatIcon = (icon: string | ReactNode) => {
@@ -94,7 +95,7 @@ const IconTreeMenuItem: FC<TreeMenuItemProps & {
             closeSubMenu();
         }
     }
-    return <NavMenuItem onClick={e => e.stopPropagation()}>
+    return <NavMenuItem onClick={e => e.stopPropagation()}  className={uiClassName("tree-menu-item")}>
         <NavMenuTitle onClick={toggleSubMenu} theme={theme} ref={itemRef} className={active ? "active" : ""}>
             {formatIcon(menuInfo.icon)}
         </NavMenuTitle>
@@ -155,7 +156,7 @@ const TreeMenuItem: FC<TreeMenuItemProps> = (props) => {
             }
         }
     }
-    return <NavMenuItem onClick={e => e.stopPropagation()}>
+    return <NavMenuItem onClick={e => e.stopPropagation()} className={uiClassName("tree-menu-item")}>
         <NavMenuTitle onClick={toggleSubMenu} theme={theme} ref={itemRef} className={hide ? "" : "active-title"}>
             {formatIcon(menuInfo.icon)}
             <span className="menu-title">{menuInfo.title}</span>
@@ -191,7 +192,8 @@ export const TreeMenuList: FC<TreeMenuListProps> = (props) => {
     if (minWidth && ((!iconMode && !subMenu) || (iconMode && subMenu && firstSubMenu))) {
         style.minWidth = formatSize(minWidth);
     }
-    return <TreeMenuWrapper className={composeClassName} theme={theme} style={style}>
+    return <TreeMenuWrapper className={uiClassName("tree-menu-list " + composeClassName)} theme={theme}
+                            style={style}>
         {menuData.map(item => iconMode && !subMenu ?
             <IconTreeMenuItem onOpenMenu={onOpenMenu} minWidth={minWidth} menuInfo={item} key={item.id}
                               subMenu={subMenu}

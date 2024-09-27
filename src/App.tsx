@@ -210,7 +210,7 @@ export const App = () => {
             </ContentAside>
             <LayoutAside flex={"row"}>
                 <ContentAside size={"auto"}>
-                    <TreeMenu menuData={menuData} iconMode={iconMode} minWidth={220} onOpenMenu={console.log}/>
+                    <TreeMenu menuData={menuData} iconMode={iconMode} minWidth={240} onOpenMenu={console.log}/>
                 </ContentAside>
                 <ContentAside>
                     <button onClick={toggleIconMode}>click me</button>
