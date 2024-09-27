@@ -13,8 +13,6 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
     transition: all 200ms ease;
 
     // wave effect
-    position: relative;
-    overflow: hidden;
     user-select: auto;
     -webkit-tap-highlight-color: transparent;
 

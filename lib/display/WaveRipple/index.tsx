@@ -20,7 +20,6 @@ export const useRipple = () => {
     const rippleShow = (event: React.MouseEvent<HTMLElement>) => {
         event.currentTarget.style.position = "relative";
         event.currentTarget.style.overflow = "hidden";
-        event.currentTarget.style.animation = "waves-ripple-shaking 6s linear infinite";
         clearTimeout(playTimeOut);
         const rect = event.currentTarget.getBoundingClientRect();
         const x = event.clientX - rect.left;

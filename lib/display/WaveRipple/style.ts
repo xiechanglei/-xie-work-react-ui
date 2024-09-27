@@ -30,17 +30,4 @@ export const WaveRippleWrapper = styled.div`
             background: rgba(255, 255, 255, .4);
         }
     }
-
-    @keyframes waves-ripple-shaking {
-        //shaking 从10%到100%的时间段内，每隔10%的时间段，都会有一个抖动
-        50%, 100% {
-            transform: rotateZ(0deg);
-        }
-        51%, 53%, 55%, 57%, 59%, 61%, 63%, 65%, 67%, 69%, 71%, 73%, 75%, 77%, 79%, 81%, 83%, 85%, 87%, 89%, 91%, 93%, 95%, 97%, 99% {
-            transform: rotateZ(-3deg);
-        }
-        52%, 54%, 56%, 58%, 60%, 62%, 64%, 66%, 68%, 70%, 72%, 74%, 76%, 78%, 80%, 82%, 84%, 86%, 88%, 90%, 92%, 94%, 96%, 98% {
-            transform: rotateZ(3deg);
-        }
-    }
 `
