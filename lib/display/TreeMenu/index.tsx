@@ -4,7 +4,7 @@ import {TreeMenuItemProps, TreeMenuListProps, TreeMenuProps} from "./type";
 import {ChevronRightRounded as ChevronRight} from "@mui/icons-material";
 import {useTheme} from "../../theme";
 import {formatSize} from "../../global/format.ts";
-import {uiClassName} from "../../global/components.ts";
+import {uiClassName} from "../../global/components";
 
 
 const formatIcon = (icon: string | ReactNode) => {
@@ -39,7 +39,7 @@ const IconTreeMenuItem: FC<TreeMenuItemProps & {
         if (openedId !== menuInfo.id && !hide) {
             closeSubMenu();
         }
-    }, [openedId])
+    }, [hide, menuInfo.id, openedId])
 
     useEffect(() => {
         if (menuInfo.children && menuInfo.children.length > 0) {

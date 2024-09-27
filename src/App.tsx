@@ -17,7 +17,8 @@ import {
     AnalyticsTwoTone
 } from '@mui/icons-material';
 import {useState} from "react";
-import {setTheme} from "../lib";
+import {Button, setTheme} from "../lib";
+import {ButtonKind} from "../lib/input/Button/type.ts";
 // bx-terminal bx-calendar bx-briefcase-alt-2 bx-receipt bx-task
 const menuData = [
     {
@@ -191,17 +192,21 @@ const ToggleThemeButton = styled.div`
     cursor: pointer;
 `
 
+const ToggleIconModeButton = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 10px;
+`
+
 
 export const App = () => {
     const [themeStatus, setThemeStatus] = useState(true)
-    const [iconMode, setIconMode] = useState(false)
     const toggleTheme = () => {
         setTheme({model: themeStatus ? "dark" : "light"})
         setThemeStatus(!themeStatus)
     }
-    const toggleIconMode = () => {
-        setIconMode(!iconMode)
-    }
+    const buttonKind: ButtonKind[] = ["primary", "info", "success", "warning", "error", "secondary"]
     return (
         <Container flex={"column"} gap={1}>
             <ToggleThemeButton onClick={toggleTheme}>change theme</ToggleThemeButton>
@@ -210,10 +215,21 @@ export const App = () => {
             </ContentAside>
             <LayoutAside flex={"row"}>
                 <ContentAside size={"auto"}>
-                    <TreeMenu menuData={menuData} iconMode={iconMode} minWidth={240} onOpenMenu={console.log}/>
+                    <TreeMenu menuData={menuData} iconMode={false} minWidth={240} onOpenMenu={console.log}/>
                 </ContentAside>
                 <ContentAside>
-                    <button onClick={toggleIconMode}>click me</button>
+                    {buttonKind.map(kind => <ToggleIconModeButton key={kind}>
+                        <Button kind={kind}>{kind}</Button>
+                        <Button kind={kind} mode={"outline"}>{kind}</Button>
+                        <Button kind={kind} mode={"soft"}>{kind}</Button>
+                        <Button kind={kind} mode={"link"}>{kind}</Button>
+                        <Button kind={kind} shape={"rect"}>{kind}</Button>
+                        <Button kind={kind} shadow>{kind}</Button>
+                        <Button kind={kind} shape={"circle"}>{kind}</Button>
+                        <Button kind={kind} dimension={"medium"}>{kind}</Button>
+                        <Button kind={kind} dimension={"large"}>{kind}</Button>
+                    </ToggleIconModeButton>)}
+
                 </ContentAside>
             </LayoutAside>
         </Container>

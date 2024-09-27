@@ -8,10 +8,12 @@ export type ThemeConfig = {
     contentPadding?: string, // 内容的padding
     background?: string, // 背景色，#FFFFFF 格式
     boxShadow?: string, // 阴影
-    primary?: string, // 主色，#FFFFFF 格式
     text?: string, // 文本色，#FFFFFF 格式
     subText?: string, // 次文本色，#FFFFFF 格式
+
+    primary?: string, // 主色，#FFFFFF 格式
     secondary?: string, // 辅色，#FFFFFF 格式
+    info?: string, // 信息色，#FFFFFF 格式
     success?: string, // 成功色，#FFFFFF 格式
     warning?: string, // 警告色，#FFFFFF 格式
     error?: string, // 错误色，#FFFFFF 格式
@@ -20,9 +22,10 @@ export type ThemeConfig = {
 // 深色主题必须要修改的配置
 const darkTheme: ThemeConfig = {
     model: "dark",
-    background: "#313533",
+    background: "#323437",
     subText: "#99a4b1",
-    boxShadow: "0 0 5rem #000",
+    text: "#adb5bd",
+    boxShadow: "1rem 1rem 3rem #000",
 }
 
 // 浅色主题必须要修改的配置
@@ -30,7 +33,8 @@ const lightTheme: ThemeConfig = {
     model: "light",
     background: "#ffffff",
     subText: "#545a6d",
-    boxShadow: "0 0 5rem #aaa",
+    text: "#000000",
+    boxShadow: "1rem 1rem 3rem #333",
 }
 
 
@@ -38,8 +42,12 @@ const lightTheme: ThemeConfig = {
 const themeConfig: ThemeConfig = {
     ...lightTheme,
     primary: "#5156be",
-    // borderRadius: "0.2em",
-    borderRadius: "none",
+    info: "#4ba6ef",
+    secondary:"#74788d",
+    success: "#2ab57d",
+    warning:"#ffbf53",
+    error:"#fd625e",
+    borderRadius: "0",
     contentPadding: "5rem",
 }
 const themeChangeCallbacks = new Map<string, () => void>()

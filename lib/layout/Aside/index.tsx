@@ -4,7 +4,7 @@ import {Direction} from "../../global/enums";
 import {formatSize} from "../../global/format";
 import {ContainerContext} from "../Container";
 import {ThemeConfig, useTheme} from "../../theme";
-import {mixinClassName} from "../../global/components.ts";
+import {mixinClassName} from "../../global/components";
 
 type AsideProps = {
     size?: number | string | "auto" | "grow"// 分区的大小，number和string类型表示大小，auto表示根据内容自动变更大小，不设置与grow一样，表示自动填充剩余空间

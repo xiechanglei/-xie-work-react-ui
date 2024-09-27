@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import {Direction} from "../../global/enums";
 import {formatSize} from "../../global/format";
 import {ThemeConfig, useTheme} from "../../theme";
-import {mixinClassName} from "../../global/components.ts";
+import {mixinClassName} from "../../global/components";
 
 export const ContainerContext = React.createContext<{ direction?: Direction, gap?: number | string }>({})
 
@@ -30,7 +30,7 @@ const StyledContainer = styled.div<ContainerProps & { theme: ThemeConfig }>`
     box-sizing: border-box;
     align-items: ${props => props.align ?? "flex-start"};
     justify-content: ${props => props.justify ?? "flex-start"};
-    background: ${props => props.theme.primary + "10"};
+    background: ${props => props.theme.model === "dark" ? props.theme.background + "ee" : props.theme.primary + "10"};
     ${props => {
         if (props.gap !== undefined) {
             return `

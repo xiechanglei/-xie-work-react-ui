@@ -15,6 +15,7 @@ export const TreeMenuWrapper = styled.div<{ theme: ThemeConfig }>`
             return `
                     padding:${props.theme.contentPadding};
                     position:absolute;
+                    z-index:999;
                     box-shadow:${props.theme.boxShadow};
                     background:${props.theme.background};
                     border-radius:${props.theme.borderRadius};
@@ -49,6 +50,7 @@ export const NavMenuTitle = styled.div<{ theme: ThemeConfig }>`
     line-height: 2em;
     height: 2em;
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
     padding: 5px;
     transition: color ease .3s;
     font-weight: bold;
