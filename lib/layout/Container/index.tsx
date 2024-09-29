@@ -12,10 +12,14 @@ export const ContainerContext = React.createContext<{ direction?: Direction, gap
  * 容器组件的额外属性
  */
 type ContainerProps = {
-    flex?: Direction // 容器的子元素排列方向，默认为column
-    gap?: number | string // 容器的子元素之间的间距
-    align?: "center" | "flex-start" | "flex-end" | "stretch" | "baseline" // 容器的子元素的对齐方式
-    justify?: "center" | "flex-start" | "flex-end" | "space-between" | "space-around" | "space-evenly" // 容器的子元素的对齐方式
+    /**
+     * 容器的子元素排列方向，默认为column
+     */
+    flex?: Direction,
+    /**
+     * 容器的子元素之间的间距
+     */
+    gap?: number | string
 }
 
 /**
@@ -28,8 +32,6 @@ const StyledContainer = styled.div<ContainerProps & { theme: ThemeConfig }>`
     overflow: hidden;
     flex-direction: ${props => props.flex};
     box-sizing: border-box;
-    align-items: ${props => props.align ?? "flex-start"};
-    justify-content: ${props => props.justify ?? "flex-start"};
     background: ${props => props.theme.model === "dark" ? props.theme.background + "ee" : props.theme.primary + "10"};
     ${props => {
         if (props.gap !== undefined) {
@@ -45,7 +47,7 @@ const StyledContainer = styled.div<ContainerProps & { theme: ThemeConfig }>`
 `
 
 /**
- * 容器组件 ，用于包裹其他组件
+ * 容器组件 ，用于进行页面布局分区
  */
 export const Container: FC<ContainerProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
     const direction = props.flex ?? "row"

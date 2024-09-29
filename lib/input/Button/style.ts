@@ -3,29 +3,38 @@ import {ThemeConfig} from "../../theme";
 
 export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string }>`
     outline: none;
-    padding: 0.3em 1.2em;
-    line-height: 1.5em;
+    padding: 0.6em;
+    line-height: 1.2em;
     cursor: pointer;
     background: ${props => props.mainColor + "e1"};
-    border: 1rem solid ${props => props.mainColor + "00"};
+    border: 0.1em solid ${props => props.mainColor + "00"};
     color: #ffffff;
     box-sizing: border-box;
     transition: all 200ms ease;
-
-    // wave effect
     user-select: auto;
     -webkit-tap-highlight-color: transparent;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    & svg {
+        font-size: 1.2em !important;
+    }
+
+    & > svg:not(:last-child){
+        margin-right: 0.3em;
+    }
 
     &.btn-small {
-        font-size: 12rem;
+        font-size: 1.2rem;
     }
 
     &.btn-medium {
-        font-size: 16rem;
+        font-size: 1.6rem;
     }
 
     &.btn-large {
-        font-size: 20rem;
+        font-size: 2rem;
     }
 
     &.btn-filled:hover {
@@ -34,12 +43,12 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
 
     &.btn-outline {
         background: transparent !important;
-        border: 1rem solid ${props => props.mainColor + "ff"};
+        border: 0.1em solid ${props => props.mainColor + "ff"};
         color: ${props => props.mainColor} !important;
 
         &:hover {
             background: ${props => props.mainColor} !important;
-            border: 1rem solid ${props => props.mainColor} !important;
+            border: 0.1em solid ${props => props.mainColor} !important;
             color: #ffffff !important;
         }
     }
@@ -47,12 +56,12 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
 
     &.btn-soft {
         background: ${props => props.mainColor}20 !important;
-        border: 1rem solid ${props => props.mainColor}00 !important;
+        border: 0.1em solid ${props => props.mainColor}00 !important;
         color: ${props => props.mainColor} !important;
 
         &:hover {
             background: ${props => props.mainColor} !important;
-            border: 1rem solid ${props => props.mainColor} !important;
+            border: 0.1em solid ${props => props.mainColor} !important;
             color: #ffffff !important;
         }
     }

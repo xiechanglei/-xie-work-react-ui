@@ -59,7 +59,8 @@ export const useRipple = () => {
     const {rippleElementProps, rippleElementAction} = useRippleReducer();
 
     const rippleShow = (event: React.MouseEvent<HTMLElement>) => {
-        if (event.currentTarget.style.position !== "relative") {
+        const targetPosition = window.getComputedStyle(event.currentTarget).position;
+        if (targetPosition !== "relative" && targetPosition !== "absolute" && targetPosition !== "fixed" && targetPosition !== "sticky") {
             event.currentTarget.style.position = "relative";
         }
         if (event.currentTarget.style.overflow !== "hidden") {

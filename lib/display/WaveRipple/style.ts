@@ -23,7 +23,7 @@ export const WaveRippleWrapper = styled.div`
         opacity: 0;
         transform-origin: center;
         pointer-events: none;
-        animation-timing-function: ease-out;
+        animation-timing-function: ease-in;
         animation-fill-mode: forwards;
     }
 

@@ -1,7 +1,7 @@
 {
   "name": "@xie-work/react-ui",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -21,7 +21,7 @@
     "build": "tsc --p ./tsconfig-build.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepublishOnly": "npm run build && git add . && git commit -am \"publishto npm\" && npm version patch"
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "dist"

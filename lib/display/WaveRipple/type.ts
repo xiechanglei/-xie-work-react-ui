@@ -7,7 +7,7 @@ export type RippleElementProps = {
     rippleKey: number
 }
 
-export  type RippleElementAction = {
+export type RippleElementAction = {
     type: "show" | "hide" | "remove",
     payload?: RippleElementProps | number
 }

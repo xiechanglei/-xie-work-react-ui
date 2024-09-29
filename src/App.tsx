@@ -179,18 +179,6 @@ const menuData = [
     }
 ]
 
-const ToggleThemeButton = styled.div`
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #009933;
-    color: #ffffff;
-    z-index: 1000;
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-`
-
 
 export const App = () => {
     const [themeStatus, setThemeStatus] = useState(true)
@@ -200,7 +188,8 @@ export const App = () => {
     }
     return (
         <Container flex={"column"} gap={1}>
-            <ToggleThemeButton onClick={toggleTheme}>change theme</ToggleThemeButton>
+            <Button size={20} shadow={true} style={{position: "absolute", top: "20px", right: "20px"}}
+                    onClick={toggleTheme}>Test Animation</Button>
             <ContentAside size={50}>
                 header
             </ContentAside>
@@ -209,7 +198,21 @@ export const App = () => {
                     <TreeMenu menuData={menuData} iconMode={false} minWidth={240} onOpenMenu={console.log}/>
                 </ContentAside>
                 <ContentAside>
-                    <Button size={20}>Test Animation</Button>
+                    <div>
+                        <Button size={"medium"} mode={"soft"}><AnalyticsTwoTone fontSize={"large"}/>Test
+                            Animation</Button>
+                    </div>
+                    <div>
+                        <Button size={"small"} mode={"soft"}><AnalyticsTwoTone fontSize={"large"}/>Test
+                            Animation</Button>
+                    </div>
+                    <div>
+                        <Button size={"medium"} mode={"outline"}><AnalyticsTwoTone fontSize={"large"}/>Test
+                            Animation</Button>
+                    </div>
+                    <div>
+                        <Button size={"small"} mode={"soft"}><AnalyticsTwoTone fontSize={"large"}/></Button>
+                    </div>
                 </ContentAside>
             </LayoutAside>
         </Container>

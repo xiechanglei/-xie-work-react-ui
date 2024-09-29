@@ -1,9 +1,10 @@
-import React, {FC} from "react";
+import React, {CSSProperties, FC} from "react";
 import {ButtonProps} from "./type";
 import {uiClassName} from "../../global/components";
 import {useTheme} from "../../theme";
 import {StyledButton} from "./style";
 import {useRipple} from "../../display";
+import {formatSize} from "../../global/format.ts";
 
 /**
  * Build button class name from props
@@ -28,25 +29,40 @@ const buildButtonClassNameFromProps = (props: ButtonProps & React.HTMLAttributes
     return classNameArr.join(" ");
 }
 
-
+/**
+ * 按钮组件
+ * @param props
+ * @constructor
+ */
 export const Button: FC<ButtonProps & React.HTMLAttributes<HTMLButtonElement>> = (props) => {
     const {rippleShow, rippleHide, rippleElement} = useRipple();
     const {kind = "primary"} = props;
     const className = buildButtonClassNameFromProps(props);
     const theme = useTheme();
-    const style = props.style ?? {};
+    const style: CSSProperties = {};
     if (typeof props.size === "number") {
-        style.fontSize = props.size + "rem";
+        style.fontSize = formatSize(props.size);
     }
+    let children = props.children;
+    //如果children是数组，那么就是多个元素，需要用span包裹
+    if (children instanceof Array) {
+        children = children.map((child, index) => {
+            if (typeof child === "string") {
+                return <span key={index}>{child}</span>
+            }
+            return child
+        });
+    }
+
     return (
-        <StyledButton {...props} style={style} mainColor={theme[kind] ?? theme.primary!}
+        <StyledButton {...props} style={{...props.style, ...style}} mainColor={theme[kind] ?? theme.primary!}
                       theme={theme}
                       onMouseDown={rippleShow}
                       onMouseUp={rippleHide}
                       onMouseLeave={rippleHide}
                       className={className}>
-            {props.children}
             {rippleElement}
+            {children}
         </StyledButton>
     )
 }

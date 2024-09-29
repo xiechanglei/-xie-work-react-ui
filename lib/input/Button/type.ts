@@ -1,16 +1,31 @@
 import {ComponentKind, ComponentMode, ComponentShape, ComponentSize} from "../../global/enums";
 
+/**
+ * 按钮组件的属性
+ */
 export type ButtonProps = {
-    // 种类
+    /**
+     * 按钮的种类
+     */
     kind?: ComponentKind,
-    // 尺寸
+    /**
+     * 按钮的大小
+     */
     size?: ComponentSize,
-    // 是否禁用
+    /**
+     * 是否禁用按钮
+     */
     disabled?: boolean,
-    // 风格
+    /**
+     * 按钮的形态
+     */
     mode?: ComponentMode,
-    // 圆角
+    /**
+     * 按钮的形状
+     */
     shape?: ComponentShape,
-    // 阴影
+    /**
+     * 是否显示阴影
+     */
     shadow?: boolean,
 }

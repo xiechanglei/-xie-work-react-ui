@@ -7,7 +7,7 @@ export const formatSize = (size?: number | string) => {
         return 0;
     }
     if (typeof size === "number") {
-        return size + "rem"
+        return size / 10 + "rem"
     }
     return size
 }

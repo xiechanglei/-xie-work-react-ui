@@ -5,7 +5,7 @@ import {ThemeConfig} from "../../theme";
  * 树形菜单样式
  */
 export const TreeMenuWrapper = styled.div<{ theme: ThemeConfig }>`
-    font-size: 14rem;
+    font-size: 1.4rem;
     box-sizing: border-box;
     overflow: hidden;
     transition: padding, width, min-width ease 0.3s;

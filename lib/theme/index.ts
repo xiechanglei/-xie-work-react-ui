@@ -25,7 +25,7 @@ const darkTheme: ThemeConfig = {
     background: "#323437",
     subText: "#99a4b1",
     text: "#adb5bd",
-    boxShadow: "1rem 1rem 3rem #000",
+    boxShadow: "0.1rem 0.1rem 0.3rem #000",
 }
 
 // 浅色主题必须要修改的配置
@@ -34,7 +34,7 @@ const lightTheme: ThemeConfig = {
     background: "#ffffff",
     subText: "#545a6d",
     text: "#000000",
-    boxShadow: "1rem 1rem 3rem #333",
+    boxShadow: "0.1rem 0.1rem 0.3rem #333",
 }
 
 
@@ -43,12 +43,12 @@ const themeConfig: ThemeConfig = {
     ...lightTheme,
     primary: "#5156be",
     info: "#4ba6ef",
-    secondary:"#74788d",
+    secondary: "#74788d",
     success: "#2ab57d",
-    warning:"#ffbf53",
-    error:"#fd625e",
+    warning: "#ffbf53",
+    error: "#fd625e",
     borderRadius: "0",
-    contentPadding: "5rem",
+    contentPadding: "0.5rem",
 }
 const themeChangeCallbacks = new Map<string, () => void>()
 
@@ -82,7 +82,7 @@ const autoSetRem = () => {
     // const baseSize = 14;
     // const baseWidth = 1920;
     // const clientWidth = document.documentElement.clientWidth;
-    document.documentElement.style.fontSize = "1px";
+    document.documentElement.style.fontSize = "10px";
 }
 
 
