@@ -209,7 +209,7 @@ export const App = () => {
                     <TreeMenu menuData={menuData} iconMode={false} minWidth={240} onOpenMenu={console.log}/>
                 </ContentAside>
                 <ContentAside>
-                    <Button size={20} kind={"success"} shape={"radius"}>Test Animation</Button>
+                    <Button size={20}>Test Animation</Button>
                 </ContentAside>
             </LayoutAside>
         </Container>
