@@ -1,7 +1,7 @@
 {
   "name": "@xie-work/react-ui",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
