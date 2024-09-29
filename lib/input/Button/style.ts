@@ -77,7 +77,7 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
     }
 
     &.btn-circle {
-        border-radius: 100em;
+        border-radius: 10em;
     }
 
     &.btn-shadow {

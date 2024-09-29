@@ -1,22 +1,16 @@
-export type ButtonKind = "primary" | "secondary" | "success" | "info" | "warning" | "error"
-
-export type ButtonSize = "small" | "medium" | "large" | number
-
-export type ButtonMode = "filled" | "outline" | "soft" | "link"
-
-export type ButtonShape = "rect" | "radius" | "circle"
+import {ComponentKind, ComponentMode, ComponentShape, ComponentSize} from "../../global/enums";
 
 export type ButtonProps = {
     // 种类
-    kind?: ButtonKind,
+    kind?: ComponentKind,
     // 尺寸
-    size?: ButtonSize,
+    size?: ComponentSize,
     // 是否禁用
     disabled?: boolean,
     // 风格
-    mode?: ButtonMode,
+    mode?: ComponentMode,
     // 圆角
-    shape?: ButtonShape,
+    shape?: ComponentShape,
     // 阴影
     shadow?: boolean,
 }

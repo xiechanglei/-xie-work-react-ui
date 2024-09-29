@@ -5,6 +5,10 @@ import {useTheme} from "../../theme";
 import {StyledButton} from "./style";
 import {useRipple} from "../../display";
 
+/**
+ * Build button class name from props
+ * @param props
+ */
 const buildButtonClassNameFromProps = (props: ButtonProps & React.HTMLAttributes<HTMLButtonElement>) => {
     const classNameArr = [uiClassName("btn")];
     const {
