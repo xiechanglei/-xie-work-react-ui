@@ -218,18 +218,20 @@ export const App = () => {
                     <TreeMenu menuData={menuData} iconMode={false} minWidth={240} onOpenMenu={console.log}/>
                 </ContentAside>
                 <ContentAside>
-                    {buttonKind.map(kind => <ToggleIconModeButton key={kind}>
-                        <Button kind={kind}>{kind}</Button>
-                        <Button kind={kind} mode={"outline"}>{kind}</Button>
-                        <Button kind={kind} mode={"soft"}>{kind}</Button>
-                        <Button kind={kind} mode={"link"}>{kind}</Button>
-                        <Button kind={kind} shape={"rect"}>{kind}</Button>
-                        <Button kind={kind} shadow>{kind}</Button>
-                        <Button kind={kind} shape={"circle"}>{kind}</Button>
-                        <Button kind={kind} dimension={"medium"}>{kind}</Button>
-                        <Button kind={kind} dimension={"large"}>{kind}</Button>
-                    </ToggleIconModeButton>)}
+                    {/*{buttonKind.map(kind => <ToggleIconModeButton key={kind}>*/}
+                    {/*    <Button kind={kind}>{kind}</Button>*/}
+                    {/*    <Button kind={kind} mode={"outline"}>{kind}</Button>*/}
+                    {/*    <Button kind={kind} mode={"soft"}>{kind}</Button>*/}
+                    {/*    <Button kind={kind} mode={"link"}>{kind}</Button>*/}
+                    {/*    <Button kind={kind} shape={"rect"}>{kind}</Button>*/}
+                    {/*    <Button kind={kind} shadow>{kind}</Button>*/}
+                    {/*    <Button kind={kind} shape={"circle"}>{kind}</Button>*/}
+                    {/*    <Button kind={kind} dimension={"medium"}>{kind}</Button>*/}
+                    {/*    <Button kind={kind} dimension={"large"}>{kind}</Button>*/}
+                    {/*</ToggleIconModeButton>)}*/}
 
+
+                    <Button size={20}>Test Animation</Button>
                 </ContentAside>
             </LayoutAside>
         </Container>

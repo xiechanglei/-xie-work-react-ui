@@ -1,102 +1,97 @@
-import React, {useEffect} from "react";
-import {WaveRippleWrapper} from "./style";
+import React, {FC, useEffect, useReducer} from "react";
+import {rippleFirstAnimationTime, rippleHideAnimationTime, WaveRippleWrapper} from "./style";
+import {RippleElementAction, RippleElementProps} from "./type";
 
-/**
- * 要求父元素有定位属性，overflow为hidden
- * position: relative;
- *     overflow: hidden;
- *     user-select: auto;
- *     -webkit-tap-highlight-color: transparent;
- */
-export const useRipple = () => {
-    const [showRipple, setShowRipple] = React.useState(false);
+
+const RippleElement: FC<RippleElementProps> = (props) => {
+    const {x, y, size, close, rippleKey} = props
     const rippleRef = React.useRef<HTMLDivElement>(null);
-    const [position, setPosition] = React.useState({x: 0, y: 0, size: 0});
-    const [rippleActive, setRippleActive] = React.useState(false);
-    const [hideRipple, setHideRipple] = React.useState(false);
-    const [playingTime, setPlayingTime] = React.useState(0);
-    const [playTimeOut, setPlayTimeOut] = React.useState(0);
+    const [complete, setComplete] = React.useState(false);
+    useEffect(() => {
+        const delayClosedTimer = setTimeout(() => setComplete(true), rippleFirstAnimationTime);
+        return () => clearTimeout(delayClosedTimer);
+    }, []);
+
+    useEffect(() => {
+        if (close && complete) {
+            rippleRef.current?.classList.add("waves-ripple-hide");
+            const delayClosedTimer = setTimeout(() => props.onHidden(rippleKey), rippleHideAnimationTime);
+            return () => clearTimeout(delayClosedTimer);
+        }
+    }, [close, complete]);
+    return <WaveRippleWrapper ref={rippleRef} style={{
+        left: x - size / 2 + "px",
+        top: y - size / 2 + "px",
+        width: size + "px",
+        height: size + "px"
+    }}>
+        <div className="waves-ripple-first"/>
+        <div className="waves-ripple-second"/>
+    </WaveRippleWrapper>
+}
+
+
+const useRippleReducer = () => {
+
+    const [rippleElementProps, rippleElementAction] = useReducer((state: RippleElementProps[], action: RippleElementAction) => {
+        if (action.type === "hide") {
+            if (state.length > 0) {
+                const newRippleProps = state.pop();
+                if (newRippleProps) {
+                    newRippleProps.close = true;
+                    return [...state, newRippleProps];
+                }
+            }
+        } else if (action.type === "remove") {
+            return state.filter(props => props.rippleKey !== action.payload);
+        } else {
+            return [...state, action.payload as RippleElementProps];
+        }
+        return state;
+
+    }, []);
+    return {rippleElementProps, rippleElementAction}
+}
+
+
+export const useRipple = () => {
+    //useReducer
+    const {rippleElementProps, rippleElementAction} = useRippleReducer();
 
     const rippleShow = (event: React.MouseEvent<HTMLElement>) => {
-        event.currentTarget.style.position = "relative";
-        event.currentTarget.style.overflow = "hidden";
-        clearTimeout(playTimeOut);
+        if (event.currentTarget.style.position !== "relative") {
+            event.currentTarget.style.position = "relative";
+        }
+        if (event.currentTarget.style.overflow !== "hidden") {
+            event.currentTarget.style.overflow = "hidden";
+        }
         const rect = event.currentTarget.getBoundingClientRect();
+        const rippleKey = Date.now();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         const width = rect.width * 2;
         const height = rect.height * 2;
-        const size = Math.max(width, height);
-        setPosition({x, y, size});
-
-        if (showRipple && rippleRef.current !== null) { // ripple 还存在
-            // setRippleActive(false);
-            const ripple = rippleRef.current;
-            ripple.style.display = "none";
-            ripple.classList.remove("waves-ripple-active");
-            ripple.classList.remove("waves-ripple-hide");
-            setHideRipple(false);
-            setRippleActive(true);
-            requestAnimationFrame(() => {
-                ripple.style.display = "block";
-                requestAnimationFrame(() => {
-                    ripple.classList.add("waves-ripple-active");
-                });
-            });
-
-        } else {
-            setShowRipple(true);
-        }
-        setPlayingTime(Date.now());
-        const timeOut = setTimeout(() => {
-            setPlayingTime(0);
-        }, 900);
-        setPlayTimeOut(timeOut as unknown as number);
+        //对角线的长度
+        const size = Math.sqrt(width * width + height * height);
+        const newRippleProps = {
+            x,
+            y,
+            size,
+            close: false,
+            rippleKey,
+            onHidden: (rk: number) => rippleElementAction({type: "remove", payload: rk})
+        };
+        rippleElementAction({type: "show", payload: newRippleProps});
     }
-    const closeRipple = () => {
-        if (showRipple) {
-            setHideRipple(true);
-            setPlayingTime(0);
-            setTimeout(() => {
-                setShowRipple(false);
-                setRippleActive(false);
-                setHideRipple(false);
-            }, 300);
+
+    const rippleHide = () => {
+        //将最后一个元素的close设置为true
+        if (rippleElementProps.length > 0) {
+            rippleElementAction({type: "hide"})
         }
     }
 
-    const rippleHide = (event: React.MouseEvent<HTMLElement>) => {
-        event.currentTarget.style.animation = "none";
-        //保证动画结束后再隐藏
-        if (playingTime !== 0) {
-            const time = Date.now() - playingTime;
-            clearTimeout(playTimeOut);
-            if (time < 300) {
-                const timeout = setTimeout(() => {
-                    closeRipple();
-                }, 300 - time);
-                setPlayTimeOut(timeout as unknown as number);
-            } else {
-                closeRipple();
-            }
-        } else {
-            closeRipple();
-        }
-    }
-    useEffect(() => {
-        if (rippleRef.current !== null) {
-            requestAnimationFrame(() => setRippleActive(true));
-        }
-    }, [showRipple])
-    const rippleElement = <>
-        {showRipple && <WaveRippleWrapper style={{
-            left: position.x - position.size / 2 + "px",
-            top: position.y - position.size / 2 + "px",
-            width: position.size + "px",
-            height: position.size + "px"
-        }}
-                                          className={`waves-ripple${rippleActive ? " waves-ripple-active" : ""}${hideRipple ? " waves-ripple-hide" : ""}`}
-                                          ref={rippleRef}/>}
-    </>
+    const rippleElement = rippleElementProps.map(props => <RippleElement key={props.rippleKey} {...props}/>);
+
     return {rippleShow, rippleHide, rippleElement}
 }

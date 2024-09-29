@@ -1,6 +1,6 @@
 export type ButtonKind = "primary" | "secondary" | "success" | "info" | "warning" | "error"
 
-export type ButtonSize = "small" | "medium" | "large"
+export type ButtonSize = "small" | "medium" | "large" | number
 
 export type ButtonMode = "filled" | "outline" | "soft" | "link"
 
@@ -10,7 +10,7 @@ export type ButtonProps = {
     // 种类
     kind?: ButtonKind,
     // 尺寸
-    dimension?: ButtonSize,
+    size?: ButtonSize,
     // 是否禁用
     disabled?: boolean,
     // 风格

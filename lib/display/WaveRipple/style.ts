@@ -1,33 +1,55 @@
 import styled from "@emotion/styled";
 
-export const WaveRippleWrapper = styled.div`
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0;
-    background: radial-gradient(rgba(255, 255, 255, .2) 0, rgba(255, 255, 255, .3) 40%, rgba(255, 255, 255, .4) 50%, rgba(255, 255, 255, .5) 60%, rgba(255, 255, 255, 0) 70%);
-    transform: scale(0) translate(0, 0);
-    transform-origin: center;
-    transition: all 0.3s ease-out;
-    pointer-events: none;
+export const rippleFirstAnimationTime: number = 400;
+export const rippleSecondAnimationTime: number = 300;
+export const rippleHideAnimationTime: number = 400;
 
-    &.waves-ripple-active {
+export const WaveRippleWrapper = styled.div`
+    & {
+        position: absolute;
         opacity: 1;
-        transform: scale(1) translate(0, 0);
-        animation: waves-ripple .6s ease-out forwards 1;
-        transition: all 0.3s ease-out;
+        transition: opacity ${rippleHideAnimationTime}ms ease-out;
     }
 
     &.waves-ripple-hide {
         opacity: 0;
-        transform: scale(1) translate(0, 0);
+    }
+
+    & .waves-ripple-first, & .waves-ripple-second {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        opacity: 0;
+        transform-origin: center;
+        pointer-events: none;
+        animation-timing-function: ease-out;
+        animation-fill-mode: forwards;
+    }
+
+    & .waves-ripple-first {
+        animation-duration: ${rippleFirstAnimationTime}ms;
+        animation-name: waves-ripple;
+        transform: scale(0) translate(0, 0);
+        background: rgba(255, 255, 255, .2);
+        background: radial-gradient(rgba(255, 255, 255, .2) 0, rgba(255, 255, 255, .3) 25%, rgba(255, 255, 255, .4) 50%, rgba(255, 255, 255, .5) 75%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    & .waves-ripple-second {
+        animation-name: waves-ripple;
+        animation-delay: ${rippleFirstAnimationTime}ms;
+        animation-duration: ${rippleSecondAnimationTime}ms;
+        background: rgba(255, 255, 255, .2);
+        background: radial-gradient(rgba(255, 255, 255, .3) 0, rgba(255, 255, 255, .2) 25%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .0) 75%, rgba(255, 255, 255, 0) 100%);
     }
 
     @keyframes waves-ripple {
-        0%, 50% {
-            background: rgba(255, 255, 255, .2);
+        0% {
+            opacity: 0;
         }
         100% {
-            background: rgba(255, 255, 255, .4);
+            opacity: 1;
+            transform: scale(1) translate(0, 0);
         }
     }
 `
