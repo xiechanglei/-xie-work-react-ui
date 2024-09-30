@@ -1,4 +1,3 @@
-
 export type ThemeConfig = {
     model?: "dark" | "light",// 主题模式
     borderRadius?: string, // 边框圆角

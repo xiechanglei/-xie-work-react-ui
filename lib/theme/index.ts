@@ -1,5 +1,7 @@
 export * from "./type";
 import {useEffect, useId, useState} from "react";
+
+export type {ThemeConfig} from "./type";
 import {ThemeConfig} from "./type";
 import {appendBaseStyle} from "./base";
 
