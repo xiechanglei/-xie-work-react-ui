@@ -61,6 +61,8 @@ const App = () => {
 
 #### 2.WaveRipple 波纹效果组件
 
+#### 3.Slider
+
 ### 输入组件模块
 
 #### 1.Button 按钮组件

@@ -4,7 +4,9 @@ import {FlexAlign, FlexDirection, FlexJustify} from "../../global/enums";
 import {formatSize} from "../../global/format";
 import {ContainerContext} from "../Container";
 import {ThemeConfig, useTheme} from "../../theme";
-import {mixinClassName} from "../../global/components";
+import {mixClassName, uiClassName} from "../../global/components";
+
+const componentClassNameBase = uiClassName("aside")
 
 type AsideProps = {
     size?: number | string | "auto" | "grow"// 分区的大小，number和string类型表示大小，auto表示根据内容自动变更大小，不设置与grow一样，表示自动填充剩余空间
@@ -66,7 +68,8 @@ const StyledAside = styled.div<AsideProps & {
     }}
 `
 /**
- * 分区内容组件,表示内部不再分区
+ * 分区内容组件,
+ * flex属性设置的时候，表示内部是flex布局，依然可以进行分区
  * @param props
  * @constructor
  */
@@ -75,11 +78,11 @@ export const ContentAside: FC<AsideProps & React.HTMLAttributes<HTMLDivElement>>
     const theme = useTheme();
     if (props.flex === undefined) {
         return <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.spacing} theme={theme}
-                            className={mixinClassName(props, "aside")}/>
+                            className={mixClassName(props.className, componentClassNameBase)}/>
     }
     return <ContainerContext.Provider value={{direction: props.flex, spacing: containerCtx.spacing}}>
         <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.spacing} theme={theme}
-                     className={mixinClassName(props, "aside")}/>
+                     className={mixClassName(props.className, componentClassNameBase)}/>
     </ContainerContext.Provider>
 }
 

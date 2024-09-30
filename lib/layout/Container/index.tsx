@@ -3,7 +3,9 @@ import styled from "@emotion/styled";
 import {FlexDirection} from "../../global/enums";
 import {formatSize} from "../../global/format";
 import {ThemeConfig, useTheme} from "../../theme";
-import {mixinClassName} from "../../global/components";
+import {mixClassName, uiClassName} from "../../global/components";
+
+const componentClassNameBase = uiClassName("container")
 
 export const ContainerContext = React.createContext<{ direction?: FlexDirection, spacing?: number | string }>({})
 
@@ -54,6 +56,6 @@ export const Container: FC<ContainerProps & React.HTMLAttributes<HTMLDivElement>
     const spacing = props.spacing
     const theme = useTheme()
     return <ContainerContext.Provider value={{direction, spacing}}>
-        <StyledContainer {...props} flex={direction} theme={theme} className={mixinClassName(props, "container")}/>
+        <StyledContainer {...props} flex={direction} theme={theme} className={mixClassName(props.className, componentClassNameBase)}/>
     </ContainerContext.Provider>
 }

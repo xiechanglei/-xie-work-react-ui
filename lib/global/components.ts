@@ -10,13 +10,11 @@ export const uiClassName = (currentName: string) => {
 }
 
 /**
- * add prefix to class name and merge with props
- * @param props
- * @param currentName
+ * 合并所有的className
+ * @param classNames
  */
-export const mixinClassName = (props: React.HTMLAttributes<HTMLElement>, currentName: string) => {
-    currentName = uiClassName(currentName);
-    return props.className ? currentName + " " + props.className : currentName
+export const mixClassName = (...classNames: (string | undefined)[]) => {
+    return classNames.filter(Boolean).join(" ")
 }
 
 /**

@@ -6,11 +6,17 @@ import {StyledButton} from "./style";
 import {useRipple} from "../../display";
 import {formatSize} from "../../global/format";
 
+
+/**
+ * 格式化图标
+ * @param icon
+ */
 const formatIcon = (icon: string | ReactNode) => {
     if (typeof icon === "string") {
-        return <span className={"btn-icon " + icon}/>
+        return <i className={"btn-icon " + icon}/>
     } else if (icon !== undefined) {
-        return <span className="btn-icon">{icon}</span>
+        //添加一个className btn-icon
+        return <i className="btn-icon">{icon}</i>
     }
     return icon
 }
@@ -52,18 +58,14 @@ export const Button: FC<ButtonProps & React.HTMLAttributes<HTMLButtonElement>> =
     if (typeof props.size === "number") {
         style.fontSize = formatSize(props.size);
     }
-    let children = props.children;
+    let children = React.Children.toArray(props.children);
     //如果children是数组，那么就是多个元素，需要用span包裹
-    if (children instanceof Array) {
-        children = children.map((child, index) => {
-            if (typeof child === "string") {
-                return <span key={index}>{child}</span>
-            }
-            return child
-        });
-    } else if (typeof children === "string") {
-        children = <span>{children}</span>
-    }
+    children = children.map((child, index) => {
+        if (typeof child === "string") {
+            return <span key={index}>{child}</span>
+        }
+        return child
+    });
 
 
     return (

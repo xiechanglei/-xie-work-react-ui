@@ -1,6 +1,8 @@
 
 export type Location = 'left' | 'right' | 'top' | 'bottom'
 
+export type MutationDirection = 'horizontal' | 'vertical'
+
 export type ComponentKind = "primary" | "secondary" | "success" | "info" | "warning" | "error"
 
 export type ComponentSize = "small" | "medium" | "large" | number

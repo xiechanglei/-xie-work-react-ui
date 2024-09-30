@@ -32,7 +32,6 @@ const RippleElement: FC<RippleElementProps> = (props) => {
 
 
 const useRippleReducer = () => {
-
     const [rippleElementProps, rippleElementAction] = useReducer((state: RippleElementProps[], action: RippleElementAction) => {
         if (action.type === "hide") {
             if (state.length > 0) {
@@ -55,9 +54,7 @@ const useRippleReducer = () => {
 
 
 export const useRipple = () => {
-    //useReducer
     const {rippleElementProps, rippleElementAction} = useRippleReducer();
-
     const rippleShow = (event: React.MouseEvent<HTMLElement>) => {
         const targetPosition = window.getComputedStyle(event.currentTarget).position;
         if (targetPosition !== "relative" && targetPosition !== "absolute" && targetPosition !== "fixed" && targetPosition !== "sticky") {

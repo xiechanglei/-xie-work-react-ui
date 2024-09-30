@@ -9,7 +9,7 @@ const StyledFlex = styled.div<FlexProps>`
     flex-direction: ${props => props.direction ?? "row"};
     justify-content: ${props => props.justify ?? "flex-start"};
     align-items: ${props => props.align ?? "flex-start"};
-
+    ${props => props.full ? "width: 100%;height: 100%;" : ""}
     ${props => props.right ? "margin-left: auto;" : ""}
     & > *:not(:last-child) {
         margin-right: ${props => formatSize(props.spacing)};
@@ -22,7 +22,10 @@ const StyledFlex = styled.div<FlexProps>`
  * @constructor
  */
 export const Flex: FC<FlexProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
-    return <StyledFlex {...props} />
+    const convertProps = {...props}
+    convertProps.align = (!props.align && props.center) ? "center" : props.align
+    convertProps.justify = (!props.justify && props.center) ? "center" : props.justify
+    return <StyledFlex {...convertProps} />
 }
 
 /**

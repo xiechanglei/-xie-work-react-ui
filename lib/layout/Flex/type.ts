@@ -25,4 +25,12 @@ export type FlexProps = {
      * 是否往有边靠齐，当父亲元素是flex布局的时候有效
      */
     right?: boolean
+    /**
+     * full，是否填满父元素
+     */
+    full?: boolean
+    /**
+     * justify-content: center; align-items: center;
+     */
+    center?: boolean
 }

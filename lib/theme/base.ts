@@ -18,7 +18,6 @@ export const appendBaseStyle = () => {
             height: 100vh;
             margin: 0;
             padding: 0;
-            font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
             font-size: 14px;
         }
         

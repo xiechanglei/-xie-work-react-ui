@@ -3,7 +3,7 @@ import {ThemeConfig} from "../../theme";
 
 export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string }>`
     outline: none;
-    padding: 0.72em;
+    padding: 0.6em;
     line-height: 1.2em;
     cursor: pointer;
     background: ${props => props.mainColor + "e1"};
@@ -17,11 +17,15 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
     justify-content: center;
     align-items: center;
 
-    & .btn-icon,& .btn-icon svg {
-        font-size: 1.2em !important;
+    & .btn-icon {
+        display: inline-flex;
     }
 
-    & > .btn-icon:not(:last-child){
+    & .btn-icon, & .btn-icon svg {
+        font-size: 1.14em !important;
+    }
+
+    & > .btn-icon:not(:last-child) {
         margin-right: 0.3em;
     }
 
