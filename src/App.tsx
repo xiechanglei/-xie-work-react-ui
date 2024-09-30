@@ -181,7 +181,7 @@ const menuData = [
     }
 ]
 
-const TopButton = matrix(Button, {size: 15, mode: "link"})
+const TopButton = matrix(Button, {size: 13, mode: "link"})
 
 export const App = () => {
     const [themeStatus, setThemeStatus] = useState(true)
@@ -192,10 +192,10 @@ export const App = () => {
     }
     return (
         <Container flex={"column"} spacing={3}>
-            <ContentAside size={50} align={"center"}>
-                <TopButton onClick={() => setIconMode(!iconMode)}><MenuIcon/></TopButton>
+            <ContentAside size={"auto"} align={"center"}>
+                <TopButton icon={<MenuIcon/>} onClick={() => setIconMode(!iconMode)}></TopButton>
                 <Flex align={"center"} spacing={3} right>
-                    <TopButton><TuneIcon/></TopButton>
+                    <TopButton icon={<TuneIcon/>}></TopButton>
                     <Button onClick={toggleTheme}>Change Theme</Button>
                 </Flex>
             </ContentAside>
@@ -207,7 +207,7 @@ export const App = () => {
                 </ContentAside>
                 <ContentAside>
                     <div>
-                        <Button size={"small"} mode={"outline"}><AccessAlarmsIcon fontSize={"large"}/>Test
+                        <Button size={"small"} mode={"outline"} icon={<AccessAlarmsIcon fontSize={"large"}/>}>Test
                             Animation</Button>
                     </div>
                 </ContentAside>

@@ -17,11 +17,11 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
     justify-content: center;
     align-items: center;
 
-    & svg {
+    & .btn-icon,& .btn-icon svg {
         font-size: 1.2em !important;
     }
 
-    & > svg:not(:last-child){
+    & > .btn-icon:not(:last-child){
         margin-right: 0.3em;
     }
 

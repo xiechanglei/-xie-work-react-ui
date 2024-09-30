@@ -1,4 +1,5 @@
 import {ComponentKind, ComponentMode, ComponentShape, ComponentSize} from "../../global/enums";
+import {ReactNode} from "react";
 
 /**
  * 按钮组件的属性
@@ -28,4 +29,8 @@ export type ButtonProps = {
      * 是否显示阴影
      */
     shadow?: boolean,
+    /**
+     * 图标
+     */
+    icon?: string | ReactNode,
 }

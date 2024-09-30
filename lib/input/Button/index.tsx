@@ -1,10 +1,19 @@
-import React, {CSSProperties, FC} from "react";
+import React, {CSSProperties, FC, ReactNode} from "react";
 import {ButtonProps} from "./type";
 import {uiClassName} from "../../global/components";
 import {useTheme} from "../../theme";
 import {StyledButton} from "./style";
 import {useRipple} from "../../display";
 import {formatSize} from "../../global/format";
+
+const formatIcon = (icon: string | ReactNode) => {
+    if (typeof icon === "string") {
+        return <span className={"btn-icon " + icon}/>
+    } else if (icon !== undefined) {
+        return <span className="btn-icon">{icon}</span>
+    }
+    return icon
+}
 
 /**
  * Build button class name from props
@@ -52,7 +61,10 @@ export const Button: FC<ButtonProps & React.HTMLAttributes<HTMLButtonElement>> =
             }
             return child
         });
+    } else if (typeof children === "string") {
+        children = <span>{children}</span>
     }
+
 
     return (
         <StyledButton {...props} style={{...props.style, ...style}} mainColor={theme[kind] ?? theme.primary!}
@@ -62,6 +74,7 @@ export const Button: FC<ButtonProps & React.HTMLAttributes<HTMLButtonElement>> =
                       onMouseLeave={rippleHide}
                       className={className}>
             {rippleElement}
+            {formatIcon(props.icon)}
             {children}
         </StyledButton>
     )
