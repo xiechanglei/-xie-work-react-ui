@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React, {FC, useContext} from "react";
-import {Direction} from "../../global/enums";
+import {FlexAlign, FlexDirection, FlexJustify} from "../../global/enums";
 import {formatSize} from "../../global/format";
 import {ContainerContext} from "../Container";
 import {ThemeConfig, useTheme} from "../../theme";
@@ -8,12 +8,16 @@ import {mixinClassName} from "../../global/components";
 
 type AsideProps = {
     size?: number | string | "auto" | "grow"// 分区的大小，number和string类型表示大小，auto表示根据内容自动变更大小，不设置与grow一样，表示自动填充剩余空间
-    flex?: "row" | "column" // 分区的内部元素的排列方向
-    align?: "center" | "flex-start" | "flex-end" | "stretch" | "baseline" // 容器的子元素的对齐方式
-    justify?: "center" | "flex-start" | "flex-end" | "space-between" | "space-around" | "space-evenly" // 容器的子元素的对齐方式
+    flex?: FlexDirection // 分区的内部元素的排列方向
+    align?: FlexAlign // 容器的子元素的对齐方式
+    justify?: FlexJustify // 容器的子元素的对齐方式
 }
 
-const StyledAside = styled.div<AsideProps & { parentDirection?: Direction, gap?: string | number, theme: ThemeConfig }>`
+const StyledAside = styled.div<AsideProps & {
+    parentDirection?: FlexDirection,
+    gap?: string | number,
+    theme: ThemeConfig
+}>`
     box-sizing: border-box;
     background: ${props => props.theme.background};
     padding: ${props => props.theme.contentPadding};
@@ -55,7 +59,7 @@ const StyledAside = styled.div<AsideProps & { parentDirection?: Direction, gap?:
                     _s += `width: ${formatSize(props.size)};`
                 }
             } else {
-                 _s += "flex-grow: 1;"
+                _s += "flex-grow: 1;"
             }
             return _s
         }
@@ -70,10 +74,12 @@ export const ContentAside: FC<AsideProps & React.HTMLAttributes<HTMLDivElement>>
     const containerCtx = useContext(ContainerContext)
     const theme = useTheme();
     if (props.flex === undefined) {
-        return <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.gap} theme={theme} className={mixinClassName(props, "aside")}/>
+        return <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.spacing} theme={theme}
+                            className={mixinClassName(props, "aside")}/>
     }
-    return <ContainerContext.Provider value={{direction: props.flex, gap: containerCtx.gap}}>
-        <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.gap} theme={theme} className={mixinClassName(props, "aside")}/>
+    return <ContainerContext.Provider value={{direction: props.flex, spacing: containerCtx.spacing}}>
+        <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.spacing} theme={theme}
+                     className={mixinClassName(props, "aside")}/>
     </ContainerContext.Provider>
 }
 

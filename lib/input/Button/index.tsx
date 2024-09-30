@@ -4,7 +4,7 @@ import {uiClassName} from "../../global/components";
 import {useTheme} from "../../theme";
 import {StyledButton} from "./style";
 import {useRipple} from "../../display";
-import {formatSize} from "../../global/format.ts";
+import {formatSize} from "../../global/format";
 
 /**
  * Build button class name from props

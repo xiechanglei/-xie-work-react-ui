@@ -3,7 +3,7 @@ import {ThemeConfig} from "../../theme";
 
 export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string }>`
     outline: none;
-    padding: 0.6em;
+    padding: 0.72em;
     line-height: 1.2em;
     cursor: pointer;
     background: ${props => props.mainColor + "e1"};
@@ -73,7 +73,7 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
         border: none;
 
         &:hover {
-            text-decoration: underline;
+            background: ${props => props.mainColor}10 !important;
         }
     }
 
@@ -91,9 +91,5 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
 
     &.btn-shadow {
         box-shadow: ${props => props.theme.boxShadow};
-
-        &:hover {
-
-        }
     }
 `

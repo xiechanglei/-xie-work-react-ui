@@ -3,7 +3,7 @@ import {TreeMenuWrapper, NavMenuItem, NavMenuTitle} from "./style";
 import {TreeMenuItemProps, TreeMenuListProps, TreeMenuProps} from "./type";
 import {ChevronRightRounded as ChevronRight} from "@mui/icons-material";
 import {useTheme} from "../../theme";
-import {formatSize} from "../../global/format.ts";
+import {formatSize} from "../../global/format";
 import {uiClassName} from "../../global/components";
 
 
@@ -170,7 +170,7 @@ const TreeMenuItem: FC<TreeMenuItemProps> = (props) => {
     </NavMenuItem>
 }
 /**
- * 树形菜单组件
+ * 树形菜单组件中的列表部分
  * @constructor
  */
 export const TreeMenuList: FC<TreeMenuListProps> = (props) => {
@@ -203,7 +203,12 @@ export const TreeMenuList: FC<TreeMenuListProps> = (props) => {
     </TreeMenuWrapper>
 
 }
-
+/**
+ * 树形菜单组件
+ * todo icon模式下的tip
+ * @param props
+ * @constructor
+ */
 export const TreeMenu: FC<TreeMenuProps> = (props) => {
     return <TreeMenuList {...props} iconMode={!!props.iconMode} hide={false} subMenu={false}/>
 }

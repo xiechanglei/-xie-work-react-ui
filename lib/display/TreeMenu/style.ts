@@ -9,13 +9,14 @@ export const TreeMenuWrapper = styled.div<{ theme: ThemeConfig }>`
     box-sizing: border-box;
     overflow: hidden;
     transition: padding, width, min-width ease 0.3s;
+    color: ${props => props.theme.subText};
 
     &.sub-menu.fixed {
+        position:absolute;
+        z-index:999;
         ${props => {
             return `
                     padding:${props.theme.contentPadding};
-                    position:absolute;
-                    z-index:999;
                     box-shadow:${props.theme.boxShadow};
                     background:${props.theme.background};
                     border-radius:${props.theme.borderRadius};
@@ -54,8 +55,7 @@ export const NavMenuTitle = styled.div<{ theme: ThemeConfig }>`
     padding: 5px;
     transition: color ease .3s;
     font-weight: bold;
-    color: ${props => props.theme.subText};
-
+    
     &:hover, &.active-title {
         color: ${props => props.theme.primary};
     }

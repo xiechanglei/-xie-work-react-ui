@@ -1,11 +1,11 @@
 import React, {FC} from "react";
 import styled from "@emotion/styled";
-import {Direction} from "../../global/enums";
+import {FlexDirection} from "../../global/enums";
 import {formatSize} from "../../global/format";
 import {ThemeConfig, useTheme} from "../../theme";
 import {mixinClassName} from "../../global/components";
 
-export const ContainerContext = React.createContext<{ direction?: Direction, gap?: number | string }>({})
+export const ContainerContext = React.createContext<{ direction?: FlexDirection, spacing?: number | string }>({})
 
 
 /**
@@ -15,11 +15,11 @@ type ContainerProps = {
     /**
      * 容器的子元素排列方向，默认为column
      */
-    flex?: Direction,
+    flex?: FlexDirection,
     /**
      * 容器的子元素之间的间距
      */
-    gap?: number | string
+    spacing?: number | string
 }
 
 /**
@@ -34,11 +34,11 @@ const StyledContainer = styled.div<ContainerProps & { theme: ThemeConfig }>`
     box-sizing: border-box;
     background: ${props => props.theme.model === "dark" ? props.theme.background + "ee" : props.theme.primary + "10"};
     ${props => {
-        if (props.gap !== undefined) {
+        if (props.spacing !== undefined) {
             return `
-              padding: ${formatSize(props.gap)};
+              padding: ${formatSize(props.spacing)};
                 > *:not(:last-child) {
-                     ${props.flex === "row" ? "margin-right" : "margin-bottom"}: ${formatSize(props.gap)};
+                     ${props.flex === "row" ? "margin-right" : "margin-bottom"}: ${formatSize(props.spacing)};
                 }
             `
         }
@@ -51,9 +51,9 @@ const StyledContainer = styled.div<ContainerProps & { theme: ThemeConfig }>`
  */
 export const Container: FC<ContainerProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
     const direction = props.flex ?? "row"
-    const gap = props.gap
+    const spacing = props.spacing
     const theme = useTheme()
-    return <ContainerContext.Provider value={{direction, gap}}>
+    return <ContainerContext.Provider value={{direction, spacing}}>
         <StyledContainer {...props} flex={direction} theme={theme} className={mixinClassName(props, "container")}/>
     </ContainerContext.Provider>
 }

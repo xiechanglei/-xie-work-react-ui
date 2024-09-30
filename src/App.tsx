@@ -1,7 +1,5 @@
-import "./app.css"
 import {Container} from "../lib/layout/Container";
 import {LayoutAside, ContentAside} from "../lib/layout/Aside";
-import styled from "@emotion/styled";
 import {TreeMenu} from "../lib/display/TreeMenu";
 import {
     CottageTwoTone,
@@ -16,9 +14,13 @@ import {
     CloudTwoTone,
     AnalyticsTwoTone
 } from '@mui/icons-material';
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
+import MenuIcon from '@mui/icons-material/Menu';
+import TuneIcon from '@mui/icons-material/Tune';
 import {useState} from "react";
-import {Button, setTheme} from "../lib";
-// bx-terminal bx-calendar bx-briefcase-alt-2 bx-receipt bx-task
+import {Button, Flex, setTheme} from "../lib";
+import {matrix} from "../lib/global";
+
 const menuData = [
     {
         id: "1",
@@ -179,39 +181,34 @@ const menuData = [
     }
 ]
 
+const TopButton = matrix(Button, {size: 15, mode: "link"})
 
 export const App = () => {
     const [themeStatus, setThemeStatus] = useState(true)
+    const [iconMode, setIconMode] = useState(false)
     const toggleTheme = () => {
         setTheme({model: themeStatus ? "dark" : "light"})
         setThemeStatus(!themeStatus)
     }
     return (
-        <Container flex={"column"} gap={1}>
-            <Button size={20} shadow={true} style={{position: "absolute", top: "20px", right: "20px"}}
-                    onClick={toggleTheme}>Test Animation</Button>
-            <ContentAside size={50}>
-                header
+        <Container flex={"column"} spacing={3}>
+            <ContentAside size={50} align={"center"}>
+                <TopButton onClick={() => setIconMode(!iconMode)}><MenuIcon/></TopButton>
+                <Flex align={"center"} spacing={3} right>
+                    <TopButton><TuneIcon/></TopButton>
+                    <Button onClick={toggleTheme}>Change Theme</Button>
+                </Flex>
             </ContentAside>
             <LayoutAside flex={"row"}>
                 <ContentAside size={"auto"}>
-                    <TreeMenu menuData={menuData} iconMode={false} minWidth={240} onOpenMenu={console.log}/>
+                    <TreeMenu menuData={menuData}
+                              iconMode={iconMode}
+                              minWidth={240}/>
                 </ContentAside>
                 <ContentAside>
                     <div>
-                        <Button size={"medium"} mode={"soft"}><AnalyticsTwoTone fontSize={"large"}/>Test
+                        <Button size={"small"} mode={"outline"}><AccessAlarmsIcon fontSize={"large"}/>Test
                             Animation</Button>
-                    </div>
-                    <div>
-                        <Button size={"small"} mode={"soft"}><AnalyticsTwoTone fontSize={"large"}/>Test
-                            Animation</Button>
-                    </div>
-                    <div>
-                        <Button size={"medium"} mode={"outline"}><AnalyticsTwoTone fontSize={"large"}/>Test
-                            Animation</Button>
-                    </div>
-                    <div>
-                        <Button size={"small"} mode={"soft"}><AnalyticsTwoTone fontSize={"large"}/></Button>
                     </div>
                 </ContentAside>
             </LayoutAside>
