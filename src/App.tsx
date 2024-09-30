@@ -42,11 +42,19 @@ export const App = () => {
                 </ContentAside>
 
                 <ContentAside>
-                    <Slider style={{width:200,height:200,background:"#e1e1e1"}} >
-                        <div>Hello</div>
-                        <div>World</div>
-                        <div>Foo</div>
-                        <div>Bar</div>
+                    <Slider style={{width: 500, height: 800, background: "#e1e1e1"}}>
+                        <img style={{width: "100%"}}
+                             src={"http://view.jqueryfuns.com/2023/3/6/499645bc04e396f0b7bf573bdbe46f0d/static/picture/img-1.jpg"}/>
+                        <img style={{width: "100%"}}
+                             src={"http://view.jqueryfuns.com/2023/3/6/499645bc04e396f0b7bf573bdbe46f0d/static/picture/img-2.jpg"}/>
+                        <img style={{width: "100%"}}
+                             src={"http://view.jqueryfuns.com/2023/3/6/499645bc04e396f0b7bf573bdbe46f0d/static/picture/img-3.jpg"}/>
+                        <img style={{width: "100%"}}
+                             src={"http://view.jqueryfuns.com/2023/3/6/499645bc04e396f0b7bf573bdbe46f0d/static/picture/img-4.jpg"}/>
+                        <img style={{width: "100%"}}
+                             src={"http://view.jqueryfuns.com/2023/3/6/499645bc04e396f0b7bf573bdbe46f0d/static/picture/img-5.jpg"}/>
+                        <img style={{width: "100%"}}
+                             src={"http://view.jqueryfuns.com/2023/3/6/499645bc04e396f0b7bf573bdbe46f0d/static/picture/img-6.jpg"}/>
                     </Slider>
                 </ContentAside>
             </LayoutAside>

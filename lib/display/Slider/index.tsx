@@ -2,7 +2,7 @@ import {SliderProps} from "./type";
 import React, {CSSProperties, FC, useEffect} from "react";
 import {mixClassName} from "../../global/components";
 import {SliderClassName, StyledSlider} from "./style";
-import {useTimeoutEffect} from "../../global/react.hooks.ts";
+import {useTimeoutEffect} from "../../global/react.hooks";
 
 /**
  * 滚动组件
@@ -37,7 +37,7 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
     }
 
     // 自动滚动
-    useTimeoutEffect(next, 3000, [current, children.length])
+    // useTimeoutEffect(next, 3000, [current, children.length])
 
     // 监听current的变化,并且重新计算滚动位置
     useEffect(resize, [current, sliderRef.current])
