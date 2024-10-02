@@ -42,7 +42,7 @@ export const App = () => {
                 </ContentAside>
 
                 <ContentAside>
-                    <Slider style={{width: 500, height: 800, background: "#e1e1e1"}}>
+                    <Slider width={500} indicator loop direction="vertical" autoPlay>
                         <img style={{width: "100%"}}
                              src={"http://view.jqueryfuns.com/2023/3/6/499645bc04e396f0b7bf573bdbe46f0d/static/picture/img-1.jpg"}/>
                         <img style={{width: "100%"}}
