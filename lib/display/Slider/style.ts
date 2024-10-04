@@ -6,6 +6,8 @@ export const SliderClassName = uiClassName("slider")
 export const StyledSlider = styled.div`
     overflow: hidden;
     position: relative;
+    // 子元素不可选中
+    user-select: none;
 
     .${SliderClassName}-item-wrapper {
         width: 100%;
@@ -20,11 +22,13 @@ export const StyledSlider = styled.div`
         margin-right: -100%;
         overflow: hidden;
         display: none;
+        align-items: center;
+        justify-content: center;
         transition: transform 0.3s ease-in-out;
     }
 
     .${SliderClassName}-item-active {
-        display: block;
+        display: flex;
     }
 
     .${SliderClassName}-item-next {
@@ -47,24 +51,24 @@ export const StyledSlider = styled.div`
         position: absolute;
         cursor: pointer;
         font-size: 3rem;
-        z-index: 100;
+        z-index: 9999;
         color: #ffffff77;
     }
 
     .${SliderClassName}-prev-btn {
         top: 50%;
         transform: translateY(-50%);
-        left: 2rem;
+        left: 2.4rem;
     }
 
     .${SliderClassName}-next-btn {
         top: 50%;
         transform: translateY(-50%);
-        right: 2rem;
+        right: 2.4rem;
     }
 
     .${SliderClassName}-item-line-group {
-        bottom: 2rem;
+        bottom: 2.4rem;
         left: 50%;
         transform: translateX(-50%);
     }

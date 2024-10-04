@@ -18,7 +18,8 @@ export const appendBaseStyle = () => {
             height: 100vh;
             margin: 0;
             padding: 0;
-            font-size: 14px;
+            line-height: 1.5;
+            font-size: 1.5rem;
         }
         
         * {

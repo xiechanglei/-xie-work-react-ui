@@ -6,6 +6,8 @@ import {formatSize} from "../../global/format";
 import {ArrowBackIcon, ArrowForwardIcon, LineIcon} from '../../icon';
 import {useTimeoutEffect} from "../../global/react.hooks";
 
+export type {SlideChangeEvent} from './type'
+
 const buildComputedStyle = (props: SliderProps) => {
     const computedStyle: CSSProperties = {};
     // 根据width和height设置容器的宽高
@@ -49,37 +51,85 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
         }
     }
     // resize
-    const resize = () => {
+    const resize = async () => {
         if (sliderRef.current === null) {
             return;
         }
+        setLast(current);
         const currentSlide = sliderRef.current.children[current] as HTMLElement;
         const lastSlide = sliderRef.current.children[(last + children.length) % children.length] as HTMLElement;
+        const currentSlideChild = currentSlide.children[0] as HTMLElement;
+        const lastSlideChild = lastSlide.children[0] as HTMLElement;
+        if (props.beforeChange && current !== last) {
+            try {
+                await props.beforeChange({
+                    from: last,
+                    to: current,
+                    fromSlide: lastSlideChild,
+                    toSlide: currentSlideChild
+                })
+            } catch (e) {
+                console.error(e)
+            }
+        }
         currentSlide.classList.add(`${SliderClassName}-item-active`);
         if (last < current) {
             currentSlide.classList.add(`${SliderClassName}-item-next`);
-            requestAnimationFrame(() => {
-                setLast(current);
+            setTimeout(() => {
                 currentSlide.classList.remove(`${SliderClassName}-item-next`);
                 lastSlide.classList.add(`${SliderClassName}-item-prev`);
                 lastSlide.addEventListener("transitionend", () => {
                     lastSlide.classList.remove(`${SliderClassName}-item-prev`);
                     lastSlide.classList.remove(`${SliderClassName}-item-active`);
+                    if (props.afterChange) {
+                        props.afterChange({
+                            from: last,
+                            to: current,
+                            fromSlide: lastSlideChild,
+                            toSlide: currentSlideChild
+                        })
+                    }
+                    if (props.afterSlideShow) {
+                        props.afterSlideShow({
+                            from: last,
+                            to: current,
+                            fromSlide: lastSlideChild,
+                            toSlide: currentSlideChild
+                        })
+                    }
                 }, {once: true});
-            });
+            }, 0);
         } else if (last > current) {
             currentSlide.classList.add(`${SliderClassName}-item-prev`);
-            requestAnimationFrame(() => {
-                setLast(current);
+            setTimeout(() => {
                 currentSlide.classList.remove(`${SliderClassName}-item-prev`);
                 lastSlide.classList.add(`${SliderClassName}-item-next`);
                 lastSlide.addEventListener("transitionend", () => {
                     lastSlide.classList.remove(`${SliderClassName}-item-next`);
                     lastSlide.classList.remove(`${SliderClassName}-item-active`);
+                    if (props.afterChange) {
+                        props.afterChange({
+                            from: last,
+                            to: current,
+                            fromSlide: lastSlideChild,
+                            toSlide: currentSlideChild
+                        })
+                    }
+                    if (props.afterSlideShow) {
+                        props.afterSlideShow({
+                            from: last,
+                            to: current,
+                            fromSlide: lastSlideChild,
+                            toSlide: currentSlideChild
+                        })
+                    }
                 }, {once: true});
-            });
+            }, 0);
+        } else {
+            if (props.afterSlideShow) {
+                props.afterSlideShow({from: last, to: current, fromSlide: lastSlideChild, toSlide: currentSlideChild})
+            }
         }
-        setLast(current);
     }
 
     // 下一个
@@ -110,7 +160,9 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
     }, props.duration ?? 3000, [current, children.length, props.autoPlay, props.duration])
 
     // 监听current的变化,并且重新计算滚动位置
-    useEffect(resize, [current])
+    useEffect(() => {
+        resize()
+    }, [current])
 
     useEffect(init, [children.length]);
 
@@ -118,10 +170,11 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
     const className = mixClassName(SliderClassName, props.className)
 
     return <StyledSlider {...props} className={className} style={{...props.style, ...buildComputedStyle(props)}}>
-        <div>
+
+        {props.arrow && <div>
             <ArrowForwardIcon className={`${SliderClassName}-btn ${SliderClassName}-next-btn`} onClick={next}/>
             <ArrowBackIcon className={`${SliderClassName}-btn ${SliderClassName}-prev-btn`} onClick={prev}/>
-        </div>
+        </div>}
 
         {props.indicator && <div className={`${SliderClassName}-item-line-group`}>
             {children.map((_, index) => <LineIcon key={index}

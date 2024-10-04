@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import {uiClassName} from "../global/components.ts";
+import {uiClassName} from "../global/components";
 
 export const IconClassName = uiClassName("icon")
 

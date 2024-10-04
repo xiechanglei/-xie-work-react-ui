@@ -1,5 +1,5 @@
 export * from "./input"
 export * from "./layout"
 export * from "./display"
-export {useTheme, setTheme} from "./theme"
 export * from "./global"
+export {useTheme, setTheme} from "./theme"
