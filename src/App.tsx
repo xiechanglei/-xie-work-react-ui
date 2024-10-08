@@ -60,20 +60,18 @@ export const App = () => {
         setThemeStatus(!themeStatus)
     }
 
-    const onBeforeChange = ({fromSlide}: SlideChangeEvent) => {
+    const onBeforeChange = ({fromSlide, toSlide}: SlideChangeEvent) => {
         const child = fromSlide.querySelector("div")
+        const toChild = toSlide.querySelector("div")
         if (child !== null) {
-            return new Promise<void>((resolve) => {
-                child.classList.remove("show")
-                child.addEventListener("transitionend", () => {
-                    resolve()
-                }, {once: true});
-            })
+            child.classList.remove("show")
+        }
+        if (toChild !== null) {
+            toChild.classList.remove("show")
         }
     }
 
     const onAfterChange = ({toSlide}: SlideChangeEvent) => {
-
         const child = toSlide.querySelector("div")
         if (child !== null) {
             child.classList.add("show")
@@ -104,8 +102,8 @@ export const App = () => {
                               minWidth={240}/>
                 </ContentAside>
 
-                <ContentAside align={"center"} justify={"center"}>
-                    <Slider arrow width={"66%"} aspectRatio={5 / 3} loop autoPlay
+                <ContentAside>
+                    <Slider width={"66%"} aspectRatio={5 / 3} loop
                             indicator
                             beforeChange={onBeforeChange}
                             afterSlideShow={onAfterChange}>

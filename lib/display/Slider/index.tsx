@@ -1,10 +1,10 @@
 import {SliderProps} from "./type";
 import React, {CSSProperties, FC, useEffect} from "react";
 import {mixClassName} from "../../global/components";
-import {SliderClassName, StyledSlider} from "./style";
+import {animationTime, SliderClassName, StyledSlider} from "./style";
 import {formatSize} from "../../global/format";
 import {ArrowBackIcon, ArrowForwardIcon, LineIcon} from '../../icon';
-import {useTimeoutEffect} from "../../global/react.hooks";
+import {useAsyncEffect, useTimeoutEffect} from "../../global/react.hooks";
 
 export type {SlideChangeEvent} from './type'
 
@@ -32,14 +32,17 @@ export const SliderItem: FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
  * 滚动组件，需要注意的滚动组件必须有固定的宽高，否则无法正常滚动
  */
 export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
-    // 显示的索引
+    // 需要显示的索引
     const [current, setCurrent] = React.useState(0)
-    // last
-    const [last, setLast] = React.useState(0)
 
+    const [indicatorIndex, setIndicatorIndex] = React.useState(0)
+    // 上一次显示的索引
+    const [last, setLast] = React.useState(0)
+    // 滚动的容器
     const sliderRef = React.useRef<HTMLDivElement>(null)
     // 将子元素转换为数组
     const children = React.Children.toArray(props.children);
+
 
     const init = () => {
         if (sliderRef.current === null) {
@@ -50,14 +53,10 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
             setLast(children.length - 1)
         }
     }
-    // resize
-    const resize = async () => {
-        if (sliderRef.current === null) {
-            return;
-        }
-        setLast(current);
-        const currentSlide = sliderRef.current.children[current] as HTMLElement;
-        const lastSlide = sliderRef.current.children[(last + children.length) % children.length] as HTMLElement;
+
+    const changeCurrentSlide = async () => {
+        const currentSlide = sliderRef.current!.children[current] as HTMLElement;
+        const lastSlide = sliderRef.current!.children[last] as HTMLElement;
         const currentSlideChild = currentSlide.children[0] as HTMLElement;
         const lastSlideChild = lastSlide.children[0] as HTMLElement;
         if (props.beforeChange && current !== last) {
@@ -73,63 +72,81 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
             }
         }
         currentSlide.classList.add(`${SliderClassName}-item-active`);
-        if (last < current) {
-            currentSlide.classList.add(`${SliderClassName}-item-next`);
-            setTimeout(() => {
-                currentSlide.classList.remove(`${SliderClassName}-item-next`);
-                lastSlide.classList.add(`${SliderClassName}-item-prev`);
-                lastSlide.addEventListener("transitionend", () => {
-                    lastSlide.classList.remove(`${SliderClassName}-item-prev`);
-                    lastSlide.classList.remove(`${SliderClassName}-item-active`);
-                    if (props.afterChange) {
-                        props.afterChange({
-                            from: last,
-                            to: current,
-                            fromSlide: lastSlideChild,
-                            toSlide: currentSlideChild
-                        })
-                    }
-                    if (props.afterSlideShow) {
-                        props.afterSlideShow({
-                            from: last,
-                            to: current,
-                            fromSlide: lastSlideChild,
-                            toSlide: currentSlideChild
-                        })
-                    }
-                }, {once: true});
-            }, 0);
-        } else if (last > current) {
-            currentSlide.classList.add(`${SliderClassName}-item-prev`);
-            setTimeout(() => {
-                currentSlide.classList.remove(`${SliderClassName}-item-prev`);
-                lastSlide.classList.add(`${SliderClassName}-item-next`);
-                lastSlide.addEventListener("transitionend", () => {
-                    lastSlide.classList.remove(`${SliderClassName}-item-next`);
-                    lastSlide.classList.remove(`${SliderClassName}-item-active`);
-                    if (props.afterChange) {
-                        props.afterChange({
-                            from: last,
-                            to: current,
-                            fromSlide: lastSlideChild,
-                            toSlide: currentSlideChild
-                        })
-                    }
-                    if (props.afterSlideShow) {
-                        props.afterSlideShow({
-                            from: last,
-                            to: current,
-                            fromSlide: lastSlideChild,
-                            toSlide: currentSlideChild
-                        })
-                    }
-                }, {once: true});
-            }, 0);
-        } else {
+        if (last === current) {
             if (props.afterSlideShow) {
                 props.afterSlideShow({from: last, to: current, fromSlide: lastSlideChild, toSlide: currentSlideChild})
             }
+        } else {
+            let nextDirection = last < current ? "next" : "prev";
+            if (current === 0 && last === children.length - 1) {
+                nextDirection = "next"
+            }
+            if (last === 0 && current === children.length - 1) {
+                nextDirection = "prev"
+            }
+            if (nextDirection === "next") {
+                currentSlide.classList.add(`${SliderClassName}-item-next`);
+                currentSlide.classList.remove(`${SliderClassName}-item-prev`);
+            } else {
+                currentSlide.classList.add(`${SliderClassName}-item-prev`);
+                currentSlide.classList.remove(`${SliderClassName}-item-next`);
+            }
+            setTimeout(() => {
+                setLast(current)
+                currentSlide.classList.remove(`${SliderClassName}-item-next`);
+                currentSlide.classList.remove(`${SliderClassName}-item-prev`);
+            }, 0)
+
         }
+
+    }
+
+    const changeLastSlide = async () => {
+        if (current === indicatorIndex) {
+            return
+        }
+        const lastSlide = sliderRef.current!.children[(indicatorIndex + children.length) % children.length] as HTMLElement;
+        const currentSlide = sliderRef.current!.children[current] as HTMLElement;
+        const lastSlideChild = lastSlide.children[0] as HTMLElement;
+        const currentSlideChild = currentSlide.children[0] as HTMLElement;
+        lastSlide.classList.add(`${SliderClassName}-item-active`);
+
+        let nextDirection = indicatorIndex < current ? "next" : "prev";
+        if (current === 0 && indicatorIndex === children.length - 1) {
+            nextDirection = "next"
+        }
+        if (indicatorIndex === 0 && current === children.length - 1) {
+            nextDirection = "prev"
+        }
+        setIndicatorIndex(current)
+        if (nextDirection === "next") {
+            lastSlide.classList.add(`${SliderClassName}-item-prev`);
+            lastSlide.classList.remove(`${SliderClassName}-item-next`);
+        } else {
+            lastSlide.classList.add(`${SliderClassName}-item-next`);
+            lastSlide.classList.remove(`${SliderClassName}-item-prev`);
+        }
+
+        setTimeout(() => {
+            lastSlide.classList.remove(`${SliderClassName}-item-prev`);
+            lastSlide.classList.remove(`${SliderClassName}-item-active`);
+            if (props.afterChange) {
+                props.afterChange({
+                    from: last,
+                    to: current,
+                    fromSlide: lastSlideChild,
+                    toSlide: currentSlideChild
+                })
+            }
+            if (props.afterSlideShow) {
+                props.afterSlideShow({
+                    from: last,
+                    to: current,
+                    fromSlide: lastSlideChild,
+                    toSlide: currentSlideChild
+                })
+            }
+        }, animationTime)
     }
 
     // 下一个
@@ -137,7 +154,6 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
         if (current < children.length - 1) {
             setCurrent(current + 1)
         } else if (props.loop) {
-            setLast(-1);
             setCurrent(0)
         }
     }
@@ -147,7 +163,6 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
         if (current > 0) {
             setCurrent(current - 1)
         } else if (props.loop) {
-            setLast(children.length);
             setCurrent(children.length - 1)
         }
     }
@@ -157,13 +172,13 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
         if (props.autoPlay) {
             next()
         }
-    }, props.duration ?? 3000, [current, children.length, props.autoPlay, props.duration])
+    }, props.duration ?? 10000, [current, children.length, props.autoPlay, props.duration])
 
-    // 监听current的变化,并且重新计算滚动位置
-    useEffect(() => {
-        resize()
-    }, [current])
+    // 监听current的变化,修改current元素的位置
+    useAsyncEffect(changeCurrentSlide, [current])
+    useAsyncEffect(changeLastSlide, [last])
 
+    // 初始化
     useEffect(init, [children.length]);
 
     // 将组件的基础类名和传入的类名进行合并
@@ -171,14 +186,14 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
 
     return <StyledSlider {...props} className={className} style={{...props.style, ...buildComputedStyle(props)}}>
 
-        {props.arrow && <div>
+        {(props.arrow === undefined || props.arrow) && <div>
             <ArrowForwardIcon className={`${SliderClassName}-btn ${SliderClassName}-next-btn`} onClick={next}/>
             <ArrowBackIcon className={`${SliderClassName}-btn ${SliderClassName}-prev-btn`} onClick={prev}/>
         </div>}
 
         {props.indicator && <div className={`${SliderClassName}-item-line-group`}>
             {children.map((_, index) => <LineIcon key={index}
-                                                  className={`${SliderClassName}-item-line` + (current === index ? " active" : "")}
+                                                  className={`${SliderClassName}-item-line` + (indicatorIndex === index ? " active" : "")}
                                                   onClick={() => setCurrent(index)}/>)}
         </div>}
 

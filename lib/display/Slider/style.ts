@@ -3,6 +3,8 @@ import {uiClassName} from "../../global/components";
 
 export const SliderClassName = uiClassName("slider")
 
+export const animationTime = 300;
+
 export const StyledSlider = styled.div`
     overflow: hidden;
     position: relative;
@@ -24,11 +26,12 @@ export const StyledSlider = styled.div`
         display: none;
         align-items: center;
         justify-content: center;
-        transition: transform 0.3s ease-in-out;
+        transition: transform ${animationTime}ms ease-in-out;
     }
 
     .${SliderClassName}-item-active {
         display: flex;
+        transform: translateX(0) translateY(0);
     }
 
     .${SliderClassName}-item-next {

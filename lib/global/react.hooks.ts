@@ -8,6 +8,12 @@ export const useMountEffect = (callback: () => void) => {
     useEffect(callback, []);
 }
 
+export const useAsyncEffect = (callback: () => Promise<void>, deps: unknown[] = []) => {
+    useEffect(() => {
+        callback();
+    }, deps);
+}
+
 /**
  * 延迟执行的effect
  */
