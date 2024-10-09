@@ -1,3 +1,5 @@
+import {ContentAside, TreeMenu} from "../../lib";
+
 import {
     AnalyticsTwoTone,
     AssignmentIndTwoTone, BadgeTwoTone, CardTravelTwoTone, CloudTwoTone,
@@ -8,7 +10,7 @@ import {
     TvTwoTone, VpnKeyTwoTone
 } from "@mui/icons-material";
 
-export const menuData = [
+const menuData = [
     {
         id: "1",
         icon: <CottageTwoTone/>,
@@ -167,3 +169,11 @@ export const menuData = [
         title: 'Charts',
     }
 ]
+
+export const TreeMenuTest = () => {
+    return <ContentAside size={"auto"}>
+        <TreeMenu menuData={menuData}
+                  iconMode={false}
+                  minWidth={240}/>
+    </ContentAside>
+}

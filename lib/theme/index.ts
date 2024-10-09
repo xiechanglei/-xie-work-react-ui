@@ -56,9 +56,9 @@ export const setTheme = (config: ThemeConfig) => {
 
 export const useTheme = () => {
     const id = useId();
-    const [theme, setTheme] = useState(themeConfig);
+    const [theme, setTheme] = useState({...themeConfig});
     useEffect(() => {
-        themeChangeCallbacks.set(id, () => setTheme(themeConfig))
+        themeChangeCallbacks.set(id, () => setTheme({...themeConfig}))
         return () => {
             themeChangeCallbacks.delete(id)
         }

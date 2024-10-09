@@ -1,19 +1,14 @@
 import styled from "@emotion/styled";
 import {ThemeConfig} from "../../theme";
 
-/**
- * 树形菜单样式
- */
 export const TreeMenuWrapper = styled.div<{ theme: ThemeConfig }>`
     font-size: 1.4rem;
     box-sizing: border-box;
-    overflow: hidden;
-    transition: padding, width, min-width ease 0.3s;
     color: ${props => props.theme.subText};
 
-    &.sub-menu.fixed {
-        position:absolute;
-        z-index:999;
+    & .sub-menu.fixed {
+        position: absolute;
+        z-index: 999;
         ${props => {
             return `
                     padding:${props.theme.contentPadding};
@@ -24,11 +19,28 @@ export const TreeMenuWrapper = styled.div<{ theme: ThemeConfig }>`
         }}
     }
 
+    .tree-menu-item-title:hover, .tree-menu-item-title.active-title {
+        color: ${props => props.theme.primary};
+    }
+
+    .tree-menu-item-title.active .nav-menu-icon {
+        color: ${props => props.theme.primary};
+        background: ${props => props.theme.primary + "40"};
+    }
+`
+
+/**
+ * 树形菜单样式
+ */
+export const TreeMenuListWrapper = styled.div`
+    transition: padding, width, min-width ease 0.3s;
+    overflow: hidden;
+    box-sizing: border-box;
     &.sub-menu {
         transition: all ease 0.3s;
         padding: 0 0 0 1em;
     }
-    
+
     &.sub-menu.hide {
         display: none;
         visibility: hidden;
@@ -45,7 +57,7 @@ export const NavMenuItem = styled.div`
 /**
  * 菜单标题样式
  */
-export const NavMenuTitle = styled.div<{ theme: ThemeConfig }>`
+export const NavMenuTitle = styled.div`
     display: flex;
     align-items: center;
     line-height: 2em;
@@ -55,10 +67,6 @@ export const NavMenuTitle = styled.div<{ theme: ThemeConfig }>`
     padding: 5px;
     transition: color ease .3s;
     font-weight: bold;
-    
-    &:hover, &.active-title {
-        color: ${props => props.theme.primary};
-    }
 
     .nav-menu-icon {
         display: flex;
@@ -74,10 +82,6 @@ export const NavMenuTitle = styled.div<{ theme: ThemeConfig }>`
         }
     }
 
-    &.active .nav-menu-icon {
-        color: ${props => props.theme.primary};
-        background: ${props => props.theme.primary + "40"};
-    }
 
     .menu-title {
         margin-right: 0.5em;

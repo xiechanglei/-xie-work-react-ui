@@ -8,7 +8,7 @@ export type TreeMenuProps = {
     /**
      * 菜单数据
      */
-    menuData: MenuInfo[],
+    menuData: TreeMenuInfo[],
     /**
      * 是否是图标模式
      */
@@ -20,7 +20,7 @@ export type TreeMenuProps = {
     /**
      * 打开菜单的回调
      */
-    onOpenMenu?: (menu: MenuInfo) => void,
+    onOpenMenu?: (menu: TreeMenuInfo) => void,
 }
 
 /**
@@ -28,7 +28,7 @@ export type TreeMenuProps = {
  */
 export type TreeMenuListProps = {
     // 菜单数据
-    menuData: MenuInfo[],
+    menuData: TreeMenuInfo[],
     // 自定义样式
     className?: string
     // 是否是子菜单
@@ -42,7 +42,7 @@ export type TreeMenuListProps = {
     // 是否隐藏
     hide: boolean
     // 打开菜单的回调
-    onOpenMenu?: (menu: MenuInfo) => void,
+    onOpenMenu?: (menu: TreeMenuInfo) => void,
 }
 
 /**
@@ -52,7 +52,7 @@ export type TreeMenuItemProps = {
     /**
      * 菜单信息
      */
-    menuInfo: MenuInfo,
+    menuInfo: TreeMenuInfo,
     /**
      * 是否是子菜单
      */
@@ -68,12 +68,12 @@ export type TreeMenuItemProps = {
     /**
      * 打开菜单的回调
      */
-    onOpenMenu?: (menu: MenuInfo) => void,
+    onOpenMenu?: (menu: TreeMenuInfo) => void,
 }
 /**
  * 菜单信息
  */
-export type MenuInfo = {
+export type TreeMenuInfo = {
     /**
      * 菜单id
      */
@@ -89,5 +89,5 @@ export type MenuInfo = {
     /**
      * 子菜单
      */
-    children?: MenuInfo[]
+    children?: TreeMenuInfo[]
 }
