@@ -3,7 +3,7 @@ import {ButtonProps} from "./type";
 import {uiClassName} from "../../global/components";
 import {useTheme} from "../../theme";
 import {StyledButton} from "./style";
-import {useRipple} from "../../display";
+import {WaveRipple} from "../../display";
 import {formatSize} from "../../global/format";
 
 
@@ -50,7 +50,6 @@ const buildButtonClassNameFromProps = (props: ButtonProps & React.HTMLAttributes
  * @constructor
  */
 export const Button: FC<ButtonProps & React.HTMLAttributes<HTMLButtonElement>> = (props) => {
-    const {rippleShow, rippleHide, rippleElement} = useRipple();
     const {kind = "primary"} = props;
     const className = buildButtonClassNameFromProps(props);
     const theme = useTheme();
@@ -71,11 +70,8 @@ export const Button: FC<ButtonProps & React.HTMLAttributes<HTMLButtonElement>> =
     return (
         <StyledButton {...props} style={{...props.style, ...style}} mainColor={theme[kind] ?? theme.primary!}
                       theme={theme}
-                      onMouseDown={rippleShow}
-                      onMouseUp={rippleHide}
-                      onMouseLeave={rippleHide}
                       className={className}>
-            {rippleElement}
+            <WaveRipple/>
             {formatIcon(props.icon)}
             {children}
         </StyledButton>

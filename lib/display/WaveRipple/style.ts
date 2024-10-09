@@ -4,6 +4,15 @@ export const rippleFirstAnimationTime: number = 400;
 export const rippleSecondAnimationTime: number = 300;
 export const rippleHideAnimationTime: number = 400;
 
+export const StyledRippleWrapper = styled.div`
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+`
+
 export const WaveRippleWrapper = styled.div`
     & {
         position: absolute;
@@ -17,6 +26,7 @@ export const WaveRippleWrapper = styled.div`
 
     & .waves-ripple-first, & .waves-ripple-second {
         position: absolute;
+        z-index: 9999;
         width: 100%;
         height: 100%;
         border-radius: 50%;

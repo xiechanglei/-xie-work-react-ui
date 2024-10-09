@@ -1,1 +1,1 @@
-export {useRipple} from "./hook"
+export {WaveRipple} from "./component"
