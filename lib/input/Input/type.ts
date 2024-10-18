@@ -2,33 +2,37 @@ import {ComponentKind, ComponentMode, ComponentShape, ComponentSize} from "../..
 import {ReactNode} from "react";
 
 /**
- * 按钮组件的属性
+ * Input组件的属性
  */
-export type ButtonProps = {
+export type InputProps = {
     /**
-     * 按钮的种类
+     * react的ts属性里面好像没有提供这个属性的说明
+     */
+    value?: string | number | readonly string[],
+    /**
+     * 是否全屏,默认false
+     */
+    full?: boolean,
+    /**
+     * 种类
      */
     kind?: ComponentKind,
     /**
-     * 按钮的大小,默认为small
+     * 大小,默认为small
      */
     size?: ComponentSize,
     /**
-     * 是否禁用按钮
+     * 禁用按钮
      */
     disabled?: boolean,
     /**
-     * 按钮的形态
+     * 形态
      */
     mode?: ComponentMode,
     /**
-     * 按钮的形状
+     * 形状
      */
     shape?: ComponentShape,
-    /**
-     * 是否显示阴影
-     */
-    shadow?: boolean,
     /**
      * 图标
      */

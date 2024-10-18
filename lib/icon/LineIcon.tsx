@@ -4,8 +4,7 @@ import {IconProps} from "./type";
 
 
 export const LineIcon = (props: IconProps) => {
-    const className = mixClassName(IconClassName, props.className)
-    return <StyledDiv {...props} className={className}>
+    return <StyledDiv {...props} className={mixClassName(IconClassName, props.className)}>
         <div style={{height: "10%", width: "90%", background: "currentcolor"}}></div>
     </StyledDiv>
 }

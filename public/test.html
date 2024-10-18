@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+<div class="container">
+    <button onclick="upload()">clc</button>
+    </div>
+    <script>
+
+        const upload = async ()=>{
+            const file = "./test.json";
+            //使用fetch获取文件，然后下载
+            const response = await fetch(file);
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = file.split('/').pop();
+            a.click();
+        }
+    </script>
+</div>
+</body>
+</html>

@@ -11,4 +11,6 @@ export {
     TypoH5Inline,
     TypoH6,
     TypoH6Inline,
+    TypoH7,
+    TypoH7Inline
 } from "./component";

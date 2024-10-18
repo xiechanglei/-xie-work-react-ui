@@ -1,10 +1,11 @@
-import React, {CSSProperties, FC, ReactNode} from "react";
+import React, {CSSProperties, forwardRef, ForwardRefRenderFunction, ReactNode} from "react";
 import {ButtonProps} from "./type";
 import {uiClassName} from "../../global/components";
-import {useTheme} from "../../theme";
+import {ThemeConfig, useTheme} from "../../theme";
 import {StyledButton} from "./style";
 import {WaveRipple} from "../../display";
 import {formatSize} from "../../global/format";
+import {omitProperties} from "../../global/object";
 
 
 /**
@@ -24,13 +25,14 @@ const formatIcon = (icon: string | ReactNode) => {
 /**
  * Build button class name from props
  * @param props
+ * @param theme
  */
-const buildButtonClassNameFromProps = (props: ButtonProps & React.HTMLAttributes<HTMLButtonElement>) => {
+const buildButtonClassNameFromProps = (props: ButtonProps & React.HTMLAttributes<HTMLButtonElement>, theme: ThemeConfig) => {
     const classNameArr = [uiClassName("btn")];
     const {
         mode = "filled",
         size = "small",
-        shape = "radius",
+        shape = theme.componentShape,
         shadow = false
     } = props
     classNameArr.push(...[mode, shape].map(i => `btn-${i}`));
@@ -49,10 +51,10 @@ const buildButtonClassNameFromProps = (props: ButtonProps & React.HTMLAttributes
  * @param props
  * @constructor
  */
-export const Button: FC<ButtonProps & React.HTMLAttributes<HTMLButtonElement>> = (props) => {
+const Button_: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps & React.HTMLAttributes<HTMLButtonElement>> = (props, ref) => {
     const {kind = "primary"} = props;
-    const className = buildButtonClassNameFromProps(props);
     const theme = useTheme();
+    const className = buildButtonClassNameFromProps(props, theme);
     const style: CSSProperties = {};
     if (typeof props.size === "number") {
         style.fontSize = formatSize(props.size);
@@ -66,10 +68,11 @@ export const Button: FC<ButtonProps & React.HTMLAttributes<HTMLButtonElement>> =
         return child
     });
 
-
+    const elementProps = omitProperties(props, "kind", "mode", "size", "shape", "shadow", "icon", "disabled");
     return (
-        <StyledButton {...props} style={{...props.style, ...style}} mainColor={theme[kind] ?? theme.primary!}
+        <StyledButton {...elementProps} style={{...props.style, ...style}} mainColor={theme[kind] ?? theme.primary!}
                       theme={theme}
+                      ref={ref}
                       className={className}>
             <WaveRipple/>
             {formatIcon(props.icon)}
@@ -77,3 +80,5 @@ export const Button: FC<ButtonProps & React.HTMLAttributes<HTMLButtonElement>> =
         </StyledButton>
     )
 }
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps & React.HTMLAttributes<HTMLButtonElement>>(Button_);

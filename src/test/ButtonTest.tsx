@@ -1,7 +1,7 @@
-import {Button, ContentAside} from "../../lib";
+import {Button, Aside} from "../../lib";
 
 export const ButtonTest = () => {
-    return <ContentAside>
+    return <Aside block>
         <Button>animation</Button>
-    </ContentAside>
+    </Aside>
 }

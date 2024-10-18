@@ -1,4 +1,4 @@
-import {ContentAside, TreeMenu} from "../../lib";
+import {Aside, TreeMenu} from "../../lib";
 
 import {
     AnalyticsTwoTone,
@@ -171,9 +171,9 @@ const menuData = [
 ]
 
 export const TreeMenuTest = () => {
-    return <ContentAside size={"auto"}>
+    return <Aside block size={"auto"}>
         <TreeMenu menuData={menuData}
                   iconMode={false}
                   minWidth={240}/>
-    </ContentAside>
+    </Aside>
 }

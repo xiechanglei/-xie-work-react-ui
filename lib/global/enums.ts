@@ -1,4 +1,3 @@
-
 export type Location = 'left' | 'right' | 'top' | 'bottom'
 
 export type MutationDirection = 'horizontal' | 'vertical'
@@ -10,6 +9,8 @@ export type ComponentSize = "small" | "medium" | "large" | number
 export type ComponentMode = "filled" | "outline" | "soft" | "link"
 
 export type ComponentShape = "rect" | "radius" | "circle"
+
+export type ContentShape = "rect" | "radius"
 
 export type FlexDirection = 'row' | 'column'
 

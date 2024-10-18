@@ -16,6 +16,7 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    min-width: 2.4em;
 
     & .btn-icon {
         display: inline-flex;
@@ -74,7 +75,7 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
     &.btn-link {
         background: transparent !important;
         color: ${props => props.mainColor} !important;
-        border: none;
+        border: 0.1em solid ${props => props.mainColor}00 !important;
 
         &:hover {
             background: ${props => props.mainColor}10 !important;

@@ -1,23 +1,28 @@
 import {
     Container,
-    LayoutAside
+    Aside
 } from "../lib";
 
 import {TreeMenuTest} from "./test/TreeMenuTest.tsx";
 import {MainHeaderTest} from "./test/MainHeaderTest.tsx";
-// import {DataGridTest} from "./test/DataGridTest.tsx";
-import {ButtonTest} from "./test/ButtonTest.tsx";
+import {DataGridTest} from "./test/DataGridTest.tsx";
+import {useEffect, useRef} from "react";
 
 
 export const App = () => {
+    const asideRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (asideRef.current) {
+            console.log(asideRef.current)
+        }
+    }, []);
     return (
-        <Container flex={"column"} spacing={3}>
+        <Container flex={"column"} spacing={5}>
             <MainHeaderTest/>
-            <LayoutAside flex={"row"}>
+            <Aside layout>
                 <TreeMenuTest/>
-                <ButtonTest />
-                {/*<DataGridTest/>*/}
-            </LayoutAside>
+                <DataGridTest/>
+            </Aside>
         </Container>
     )
 }

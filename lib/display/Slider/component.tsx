@@ -1,10 +1,11 @@
 import {SliderProps} from "./type";
-import React, {CSSProperties, FC, useEffect} from "react";
+import React, {CSSProperties, forwardRef, FC, ForwardRefRenderFunction, useEffect} from "react";
 import {mixClassName} from "../../global/components";
 import {animationTime, SliderClassName, StyledSlider} from "./style";
 import {formatSize} from "../../global/format";
 import {ArrowBackIcon, ArrowForwardIcon, LineIcon} from '../../icon';
 import {useAsyncEffect, useTimeoutEffect} from "../../global/react.hooks";
+import {omitProperties} from "../../global/object";
 
 const buildComputedStyle = (props: SliderProps) => {
     const computedStyle: CSSProperties = {};
@@ -29,7 +30,7 @@ const SliderItem: FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
 /**
  * 滚动组件，需要注意的滚动组件必须有固定的宽高，否则无法正常滚动
  */
-export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
+const Slider_: ForwardRefRenderFunction<HTMLDivElement, SliderProps & React.HTMLAttributes<HTMLDivElement>> = (props, ref) => {
     // 需要显示的索引
     const [current, setCurrent] = React.useState(0)
 
@@ -182,7 +183,9 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
     // 将组件的基础类名和传入的类名进行合并
     const className = mixClassName(SliderClassName, props.className)
 
-    return <StyledSlider {...props} className={className} style={{...props.style, ...buildComputedStyle(props)}}>
+    const elementProps = omitProperties(props, "width", "height", "aspectRatio", "direction", "arrow", "loop", "autoPlay", "indicator", "duration", "beforeChange", "afterChange", "afterSlideShow")
+    return <StyledSlider {...elementProps} className={className} style={{...props.style, ...buildComputedStyle(props)}}
+                         ref={ref}>
 
         {(props.arrow === undefined || props.arrow) && <div>
             <ArrowForwardIcon className={`${SliderClassName}-btn ${SliderClassName}-next-btn`} onClick={next}/>
@@ -204,3 +207,5 @@ export const Slider: FC<SliderProps & React.HTMLAttributes<HTMLDivElement>> = (p
         </div>
     </StyledSlider>
 }
+
+export const Slider = forwardRef<HTMLDivElement, SliderProps & React.HTMLAttributes<HTMLDivElement>>(Slider_)

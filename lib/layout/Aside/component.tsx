@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import React, {FC, useContext} from "react";
-import {FlexAlign, FlexDirection, FlexJustify} from "../../global/enums";
+import React, {forwardRef, ForwardRefRenderFunction, HTMLAttributes, useContext} from "react";
+import {ContentShape, FlexAlign, FlexDirection, FlexJustify} from "../../global/enums";
 import {formatSize} from "../../global/format";
 import {ContainerContext} from "../Container";
 import {ThemeConfig, useTheme} from "../../theme";
@@ -13,6 +13,69 @@ type AsideProps = {
     flex?: FlexDirection // 分区的内部元素的排列方向
     align?: FlexAlign // 容器的子元素的对齐方式
     justify?: FlexJustify // 容器的子元素的对齐方式
+    wrap?: "wrap" | "nowrap" | "wrap-reverse" // 容器的子元素的换行方式
+    shape?: ContentShape // 分区的形状，圆角或者直角
+    block?: boolean //是否是content部分，自动加背景以及padding等信息
+    layout?: boolean//是否继续布局
+}
+
+const getCssPropertiesByParentDirection = (parentDirection?: FlexDirection, size?: number | string | "auto" | "grow") => {
+    let _s = "overflow:auto;"
+    if (parentDirection === "column") {
+        _s += `width:100%;`
+    } else {
+        _s += `height:100%;`
+    }
+    if (size !== undefined && size !== "grow") {
+        _s += "flex-shrink: 0;flex-grow: 0;"
+        if (parentDirection === "column") {
+            _s += `height: ${formatSize(size)};`
+        } else {
+            _s += `width: ${formatSize(size)};`
+        }
+    } else {
+        _s += "flex-grow: 1;"
+    }
+    return _s
+}
+
+const getContentCssProperties = (props: AsideProps & {
+    parentDirection?: FlexDirection,
+    gap?: string | number,
+    theme: ThemeConfig
+}) => {
+    let _s = "";
+    if (props.block) {
+        _s += `background: ${props.theme.background};`
+        _s += `padding: ${props.theme.contentPadding};`
+        _s += `border-radius: ${props.shape === "radius" ? props.theme.borderRadius : "0"};`
+        if (props.gap !== undefined && props.parentDirection !== undefined) {
+            _s += `
+                &:not(:last-child){
+                     ${props.parentDirection === "row" ? "margin-right" : "margin-bottom"}: ${formatSize(props.gap)};
+                }
+            `
+        }
+    }
+    return _s;
+}
+
+const getLayoutCssProperties = (props: AsideProps & {
+    parentDirection?: FlexDirection,
+    gap?: string | number,
+    theme: ThemeConfig
+}) => {
+    if (props.layout) {
+        const _s = `
+            display: flex;
+            flex-wrap: no-wrap;
+            flex-direction: ${props.flex ?? "row"};
+            flex-wrap: ${props.wrap ?? "nowrap"};
+            justify-content: ${props.justify ?? "flex-start"};
+            align-items: ${props.align ?? "flex-start"};
+        `
+        return _s;
+    }
 }
 
 const StyledAside = styled.div<AsideProps & {
@@ -21,79 +84,28 @@ const StyledAside = styled.div<AsideProps & {
     theme: ThemeConfig
 }>`
     box-sizing: border-box;
-    background: ${props => props.theme.background};
-    padding: ${props => props.theme.contentPadding};
-    border-radius: ${props => props.theme.borderRadius};
-    ${props => {
-    // 认为当flex，align，justify设置了一个的时候，就是设置为flex布局
-    if (props.flex !== undefined || props.align !== undefined || props.justify !== undefined) {
-        return `
-                display: flex;
-                flex-wrap: wrap;
-                flex-direction: ${props.flex ?? "row"};
-                justify-content: ${props.justify ?? "flex-start"};
-                align-items: ${props.align ?? "flex-start"};
-            `
-    }
-}}
-    ${props => {
-    if (props.gap !== undefined && props.parentDirection !== undefined) {
-        return `
-                &:not(:last-child){
-                     ${props.parentDirection === "row" ? "margin-right" : "margin-bottom"}: ${formatSize(props.gap)};
-                }
-            `
-    }
-}}
-    ${props => {
-    if (props.parentDirection !== undefined) {
-        let _s = "overflow: auto;"
-        if (props.parentDirection === "column") {
-            _s += `width:100%;`
-        } else {
-            _s += `height:100%;`
-        }
-        if (props.size !== undefined && props.size !== "grow") {
-            _s += "flex-shrink: 0;flex-grow: 0;"
-            if (props.parentDirection === "column") {
-                _s += `height: ${formatSize(props.size)};`
-            } else {
-                _s += `width: ${formatSize(props.size)};`
-            }
-        } else {
-            _s += "flex-grow: 1;"
-        }
-        return _s
-    }
-}}
+    ${props => getContentCssProperties(props)}
+    ${props => getLayoutCssProperties(props)}
+    ${props => getCssPropertiesByParentDirection(props.parentDirection, props.size)}
 `
-/**
- * 分区内容组件,
- * flex属性设置的时候，表示内部是flex布局，依然可以进行分区
- * @param props
- * @constructor
- */
-export const ContentAside: FC<AsideProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
+
+const Aside_: ForwardRefRenderFunction<HTMLDivElement, AsideProps & HTMLAttributes<HTMLDivElement>> = (props, ref) => {
     const containerCtx = useContext(ContainerContext)
     const theme = useTheme();
-    if (props.flex === undefined) {
-        return <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.spacing} theme={theme}
+    const parentDirection = containerCtx.direction;
+    if (props.layout) {
+        const currentDirection = props.flex !== undefined ? props.flex : (parentDirection === "row" ? "column" : "row");
+        return <ContainerContext.Provider value={{direction: currentDirection, spacing: containerCtx.spacing}}>
+            <StyledAside ref={ref} {...props} shape={props.shape ?? theme.contentShape}
+                         parentDirection={parentDirection}
+                         gap={containerCtx.spacing} theme={theme}
+                         className={mixClassName(props.className, componentClassNameBase)}/>
+        </ContainerContext.Provider>
+    } else {
+        return <StyledAside ref={ref} {...props} shape={props.shape ?? theme.contentShape}
+                            parentDirection={containerCtx.direction} gap={containerCtx.spacing} theme={theme}
                             className={mixClassName(props.className, componentClassNameBase)}/>
     }
-    return <ContainerContext.Provider value={{direction: props.flex, spacing: containerCtx.spacing}}>
-        <StyledAside {...props} parentDirection={containerCtx.direction} gap={containerCtx.spacing} theme={theme}
-                     className={mixClassName(props.className, componentClassNameBase)}/>
-    </ContainerContext.Provider>
 }
 
-/**
- * 分区布局组件,表示内部还有分区，与内容组件的区别是，没有边框与背景填充
- */
-export const LayoutAside = styled(ContentAside)`
-    padding: 0;
-    background: none;
-    border-radius: 0;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow: hidden !important;
-`
+export const Aside = forwardRef<HTMLDivElement, AsideProps & React.HTMLAttributes<HTMLDivElement>>(Aside_)

@@ -1,1 +1,0 @@
-export {ContentAside, LayoutAside} from "./component"

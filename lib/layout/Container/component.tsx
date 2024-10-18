@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {forwardRef, ForwardRefRenderFunction} from "react";
 import styled from "@emotion/styled";
 import {FlexDirection} from "../../global/enums";
 import {formatSize} from "../../global/format";
@@ -21,6 +21,11 @@ type ContainerProps = {
      * 容器的子元素之间的间距
      */
     spacing?: number | string
+
+    /**
+     * background: string,如果没有设置，则使用主题的背景色
+     */
+    background?: string
 }
 
 /**
@@ -31,31 +36,38 @@ const StyledContainer = styled.div<ContainerProps & { theme: ThemeConfig }>`
     height: 100%;
     display: flex;
     overflow: hidden;
+    color: ${props => props.theme.text};
     flex-direction: ${props => props.flex};
     box-sizing: border-box;
-    background: ${props => props.theme.model === "dark" ? props.theme.background + "ee" : props.theme.primary + "10"};
     ${props => {
         if (props.spacing !== undefined) {
             return `
               padding: ${formatSize(props.spacing)};
-                > *:not(:last-child) {
+                > *:not(:first-child) {
                      ${props.flex === "row" ? "margin-right" : "margin-bottom"}: ${formatSize(props.spacing)};
+                }
+                > *:last-child {
+                    ${props.flex === "row" ? "margin-right" : "margin-bottom"}: 0;
                 }
             `
         }
     }}
-
 `
 
 /**
  * 容器组件 ，用于进行页面布局分区
  */
-export const Container: FC<ContainerProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
+const Container_: ForwardRefRenderFunction<HTMLDivElement, ContainerProps & React.HTMLAttributes<HTMLDivElement>> = (props, ref) => {
     const direction = props.flex ?? "row"
     const spacing = props.spacing
     const theme = useTheme()
+    const background = props.background ?? (theme.model === "dark" ? theme.background + "ee" : theme.primary + "10")
     return <ContainerContext.Provider value={{direction, spacing}}>
         <StyledContainer {...props} flex={direction} theme={theme}
+                         style={{background}}
+                         ref={ref}
                          className={mixClassName(props.className, componentClassNameBase)}/>
     </ContainerContext.Provider>
 }
+
+export const Container = forwardRef<HTMLDivElement, ContainerProps & React.HTMLAttributes<HTMLDivElement>>(Container_);

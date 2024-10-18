@@ -18,7 +18,10 @@ export const mixClassName = (...classNames: (string | undefined)[]) => {
 }
 
 /**
- * Get component props type
+ * 获取组件的属性类型声明
+ * @param T 组件类型
+ *
+ * @auther xie
  */
 export type inferComponentProps<T> = T extends React.ComponentType<infer P> ? P : never;
 
@@ -26,6 +29,8 @@ export type inferComponentProps<T> = T extends React.ComponentType<infer P> ? P 
  * 对组件进行公共参数的封装，形成模板组件
  * @param component
  * @param commonProps
+ *
+ * @auther xie
  */
 export function matrix<T extends React.FunctionComponent | React.ComponentClass>(component: T, commonProps: inferComponentProps<T>): (props: inferComponentProps<T>) => ReactNode {
     return (props: inferComponentProps<T>) => {

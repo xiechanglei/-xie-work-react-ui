@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, {FC} from "react";
+import React, {forwardRef, ForwardRefRenderFunction} from "react";
 import {FlexProps} from "./type";
 import {formatSize} from "../../global/format";
 
@@ -22,16 +22,25 @@ const StyledFlex = styled.div<FlexProps>`
  * @param props
  * @constructor
  */
-export const Flex: FC<FlexProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
+const Flex_: ForwardRefRenderFunction<HTMLDivElement, FlexProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
     const convertProps = {...props}
     convertProps.align = (!props.align && props.center) ? "center" : props.align
     convertProps.justify = (!props.justify && props.center) ? "center" : props.justify
     return <StyledFlex {...convertProps} />
 }
+export const Flex = forwardRef<HTMLDivElement, FlexProps & React.HTMLAttributes<HTMLDivElement>>(Flex_);
+
 
 /**
  * Flex布局组件的右侧
  */
 export const FlexRight = styled.div`
     margin-left: auto;
+`
+
+/**
+ * Flex布局组件的左侧
+ */
+export const FlexLeft = styled.div`
+    margin-right: auto;
 `

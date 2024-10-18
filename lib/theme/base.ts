@@ -1,11 +1,11 @@
 // todo 适配移动端
-import {debounce} from "../global/performance";
+// import {debounce} from "../global/performance";
 
 export const autoSetRem = () => {
     // const baseSize = 14;
     // const baseWidth = 1920;
     // const clientWidth = document.documentElement.clientWidth;
-    document.documentElement.style.fontSize = "10px";
+    document.documentElement.style.fontSize = "calc(100vw / 192)";
 }
 
 /**
@@ -44,5 +44,5 @@ export const appendBaseStyle = () => {
     `;
     document.head.appendChild(baseStyle);
     autoSetRem();
-    window.addEventListener("resize", debounce(autoSetRem, 300));
+    // window.addEventListener("resize", debounce(autoSetRem, 300));
 }

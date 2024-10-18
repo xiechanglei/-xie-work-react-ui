@@ -1,28 +1,50 @@
 /**
- * 表格组件属性
- */
-export type DataGridProps = {
-    /**
-     * 表格字段信息列表
-     */
-    fields: DataGridFieldInfo[]
-
-    /**
-     * 是否分页，默认为true
-     */
-    pagination?: boolean
-
-    /**
-     * 加载数据
-     */
-    loader: () => Promise<DataGridRecordInfo>
-}
-/**
  * 表格数据
  */
 export type DataGridRecordInfo = {
-    data: unknown[]
+    /**
+     * 数据记录
+     */
+    data: DataGridRecord[],
+
+    /**
+     * 总记录数,当处于分页模式时，需要设置total属性
+     */
+    total: number
+
+    /**
+     * 当前页码,当处于分页模式时，需要设置page属性，page从1开始，表示第一页
+     */
+    page: number
+
+    /**
+     * 每页记录数,当处于分页模式时，需要设置pageSize属性
+     */
+    pageSize: number
+
 }
+
+/**
+ * 查询信息
+ */
+export type DataGridSearchParams = {
+    /**
+     * 是否分页
+     */
+    pagination: boolean,
+
+    /**
+     * 当前页码
+     */
+    page: number,
+
+    /**
+     * 每页记录数
+     */
+    pageSize: number,
+
+}
+
 
 /**
  * 表格字段信息
@@ -31,7 +53,7 @@ export type DataGridFieldInfo = {
     /**
      * 字段名称，对应数据中的字段名称
      */
-    name: string;
+    key: string;
 
     /**
      * 字段名称显示名称
@@ -65,10 +87,19 @@ export type DataGridFieldInfo = {
     searchable?: boolean;
 }
 
+
 /**
  * 表格字段过滤选项
  */
 export type DataGridFieldFilterOption = {
     label: string;
     value: string;
+}
+
+
+/**
+ * 数据记录
+ */
+export type DataGridRecord = {
+    [key: string]: unknown
 }

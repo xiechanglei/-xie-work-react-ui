@@ -28,3 +28,5 @@ export const [TypoH4, TypoH4Inline] = buildHeader(3)
 export const [TypoH5, TypoH5Inline] = buildHeader(2)
 
 export const [TypoH6, TypoH6Inline] = buildHeader(1)
+
+export const [TypoH7, TypoH7Inline] = buildHeader(0.9)

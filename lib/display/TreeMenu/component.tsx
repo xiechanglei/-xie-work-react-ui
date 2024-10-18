@@ -1,4 +1,13 @@
-import React, {CSSProperties, FC, ReactNode, useEffect, useRef, useState} from "react";
+import React, {
+    CSSProperties,
+    FC,
+    forwardRef,
+    ForwardRefRenderFunction,
+    ReactNode,
+    useEffect,
+    useRef,
+    useState
+} from "react";
 import {TreeMenuWrapper, NavMenuItem, NavMenuTitle, TreeMenuListWrapper} from "./style";
 import {TreeMenuItemProps, TreeMenuListProps, TreeMenuProps} from "./type";
 import {ChevronRightRounded as ChevronRight} from "@mui/icons-material";
@@ -209,8 +218,10 @@ const TreeMenuList: FC<TreeMenuListProps> = (props) => {
  * @param props
  * @constructor
  */
-export const TreeMenu: FC<TreeMenuProps> = (props) => {
+const TreeMenu_: ForwardRefRenderFunction<HTMLDivElement, TreeMenuProps> = (props) => {
     const theme = useTheme();
     return <TreeMenuWrapper theme={theme}><TreeMenuList {...props} iconMode={!!props.iconMode} hide={false}
                                                         subMenu={false}/></TreeMenuWrapper>
 }
+
+export const TreeMenu = forwardRef<HTMLDivElement, TreeMenuProps>(TreeMenu_);

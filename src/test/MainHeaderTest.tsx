@@ -1,4 +1,4 @@
-import {Button, ContentAside, Flex, matrix, setTheme} from "../../lib";
+import {Button, Aside, Flex, matrix, setTheme} from "../../lib";
 import MenuIcon from "@mui/icons-material/Menu";
 import TuneIcon from "@mui/icons-material/Tune";
 import {useState} from "react";
@@ -9,18 +9,21 @@ import logo from "../assert/logo-sm.svg"
 
 
 
+// setTheme({borderRadius: "3px"})
+
 const TopButton = matrix(Button, {size: 13, mode: "link"})
 
-export const MainHeaderTest = ()=>{
+export const MainHeaderTest = () => {
     const [iconMode, setIconMode] = useState(false)
     const [themeStatus, setThemeStatus] = useState(true)
 
     const toggleTheme = () => {
-        setTheme({model:"dark"})
+        setTheme({model: "dark"})
         setTheme({model: themeStatus ? "dark" : "light"})
         setThemeStatus(!themeStatus)
     }
-    return    <ContentAside size={"auto"} align={"center"}>
+
+    return <Aside block layout size={"auto"} align={"center"}>
         {/*logo and search*/}
         <img src={logo} width="20px" alt="logo"/>
         <span style={{fontSize: "16px", marginLeft: "20px"}}>Minia</span>
@@ -32,6 +35,6 @@ export const MainHeaderTest = ()=>{
             <TopButton icon={<TuneIcon/>}></TopButton>
             <Button onClick={toggleTheme}>Change Theme</Button>
         </Flex>
-    </ContentAside>
+    </Aside>
 
 }
