@@ -1,6 +1,6 @@
-import React, {CSSProperties, forwardRef, ForwardRefRenderFunction, ReactNode} from "react";
+import React, {CSSProperties, FC, ReactNode} from "react";
 import {ButtonProps} from "./type";
-import {uiClassName} from "../../global/components";
+import {RH, uiClassName} from "../../global/components";
 import {ThemeConfig, useTheme} from "../../theme";
 import {StyledButton} from "./style";
 import {WaveRipple} from "../../display";
@@ -51,7 +51,7 @@ const buildButtonClassNameFromProps = (props: ButtonProps & React.HTMLAttributes
  * @param props
  * @constructor
  */
-const Button_: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps & React.HTMLAttributes<HTMLButtonElement>> = (props, ref) => {
+export const Button: FC<ButtonProps & RH<HTMLButtonElement>> = (props) => {
     const {kind = "primary"} = props;
     const theme = useTheme();
     const className = buildButtonClassNameFromProps(props, theme);
@@ -72,7 +72,6 @@ const Button_: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps & React.H
     return (
         <StyledButton {...elementProps} style={{...props.style, ...style}} mainColor={theme[kind] ?? theme.primary!}
                       theme={theme}
-                      ref={ref}
                       className={className}>
             <WaveRipple/>
             {formatIcon(props.icon)}
@@ -80,5 +79,3 @@ const Button_: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps & React.H
         </StyledButton>
     )
 }
-
-export const Button = forwardRef<HTMLButtonElement, ButtonProps & React.HTMLAttributes<HTMLButtonElement>>(Button_);

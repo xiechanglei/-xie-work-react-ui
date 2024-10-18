@@ -1,10 +1,11 @@
-import React, {forwardRef, ForwardRefRenderFunction} from "react";
+import {FC} from "react";
 import styled from "@emotion/styled";
 import {FlexDirection} from "../../global/enums";
 import {formatSize} from "../../global/format";
 import {ThemeConfig, useTheme} from "../../theme";
-import {mixClassName, uiClassName} from "../../global/components";
+import {mixClassName, RH, uiClassName} from "../../global/components";
 import {ContainerContext} from "./context";
+import {omitProperties} from "../../global/object";
 
 const componentClassNameBase = uiClassName("container")
 
@@ -57,17 +58,15 @@ const StyledContainer = styled.div<ContainerProps & { theme: ThemeConfig }>`
 /**
  * 容器组件 ，用于进行页面布局分区
  */
-const Container_: ForwardRefRenderFunction<HTMLDivElement, ContainerProps & React.HTMLAttributes<HTMLDivElement>> = (props, ref) => {
+export const Container: FC<ContainerProps & RH<HTMLDivElement>> = (props) => {
     const direction = props.flex ?? "row"
     const spacing = props.spacing
     const theme = useTheme()
     const background = props.background ?? (theme.model === "dark" ? theme.background + "ee" : theme.primary + "10")
+    const passProps = omitProperties(props, "refs");
     return <ContainerContext.Provider value={{direction, spacing}}>
-        <StyledContainer {...props} flex={direction} theme={theme}
+        <StyledContainer ref={props.refs} {...passProps} flex={direction} theme={theme}
                          style={{background}}
-                         ref={ref}
                          className={mixClassName(props.className, componentClassNameBase)}/>
     </ContainerContext.Provider>
 }
-
-export const Container = forwardRef<HTMLDivElement, ContainerProps & React.HTMLAttributes<HTMLDivElement>>(Container_);

@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 import {ThemeConfig, useTheme} from "../../theme";
-import React, {forwardRef, ForwardRefRenderFunction} from "react";
+import {FC} from "react";
 import {ContentShape} from "../../global/enums";
-import {mixClassName, uiClassName} from "../../global/components";
+import {mixClassName, RH, uiClassName} from "../../global/components";
+import {omitProperties} from "../../global/object";
 
 type CardProps = {
     shape?: ContentShape
@@ -20,12 +21,12 @@ const CardWrapper = styled.div<{ theme: ThemeConfig } & CardProps>`
  * @param props
  * @constructor
  */
-const Card_: ForwardRefRenderFunction<HTMLDivElement, CardProps & React.HTMLAttributes<HTMLDivElement>> = (props, ref) => {
+export const Card: FC<CardProps & RH<HTMLDivElement>> = (props) => {
     const theme = useTheme();
-    return <CardWrapper {...props} className={mixClassName(CardClassName, props.className)} theme={theme} ref={ref}
+    const passProps = omitProperties(props, "refs");
+    return <CardWrapper ref={props.refs} {...passProps} className={mixClassName(CardClassName, props.className)}
+                        theme={theme}
                         shape={props.shape ?? theme.contentShape}>
         {props.children}
     </CardWrapper>
 }
-
-export const Card = forwardRef<HTMLDivElement, CardProps & React.HTMLAttributes<HTMLDivElement>>(Card_);

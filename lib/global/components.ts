@@ -1,4 +1,4 @@
-import React, {ReactNode} from "react";
+import React, {HTMLAttributes, ReactNode} from "react";
 import {UI_PREFIX} from "../theme";
 
 /**
@@ -24,6 +24,8 @@ export const mixClassName = (...classNames: (string | undefined)[]) => {
  * @auther xie
  */
 export type inferComponentProps<T> = T extends React.ComponentType<infer P> ? P : never;
+
+export type RH<T> = HTMLAttributes<T> & { refs?: React.Ref<T> | undefined }
 
 /**
  * 对组件进行公共参数的封装，形成模板组件

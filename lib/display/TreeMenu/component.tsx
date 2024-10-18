@@ -1,8 +1,6 @@
 import React, {
     CSSProperties,
     FC,
-    forwardRef,
-    ForwardRefRenderFunction,
     ReactNode,
     useEffect,
     useRef,
@@ -13,7 +11,8 @@ import {TreeMenuItemProps, TreeMenuListProps, TreeMenuProps} from "./type";
 import {ChevronRightRounded as ChevronRight} from "@mui/icons-material";
 import {useTheme} from "../../theme";
 import {formatSize} from "../../global/format";
-import {uiClassName} from "../../global/components";
+import {RH, uiClassName} from "../../global/components";
+import {omitProperties} from "../../global/object";
 
 
 const formatIcon = (icon: string | ReactNode) => {
@@ -218,10 +217,9 @@ const TreeMenuList: FC<TreeMenuListProps> = (props) => {
  * @param props
  * @constructor
  */
-const TreeMenu_: ForwardRefRenderFunction<HTMLDivElement, TreeMenuProps> = (props) => {
+export const TreeMenu: FC<TreeMenuProps & RH<HTMLDivElement>> = (props) => {
     const theme = useTheme();
-    return <TreeMenuWrapper theme={theme}><TreeMenuList {...props} iconMode={!!props.iconMode} hide={false}
+    const passProps = omitProperties(props, "refs");
+    return <TreeMenuWrapper ref={props.refs} theme={theme}><TreeMenuList {...passProps} iconMode={!!props.iconMode} hide={false}
                                                         subMenu={false}/></TreeMenuWrapper>
 }
-
-export const TreeMenu = forwardRef<HTMLDivElement, TreeMenuProps>(TreeMenu_);

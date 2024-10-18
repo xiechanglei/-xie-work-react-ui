@@ -1,10 +1,10 @@
 import {SliderProps} from "./type";
-import React, {CSSProperties, forwardRef, FC, ForwardRefRenderFunction, useEffect} from "react";
-import {mixClassName} from "../../global/components";
+import React, {CSSProperties, FC, useEffect} from "react";
+import {mixClassName, RH} from "../../global/components";
 import {animationTime, SliderClassName, StyledSlider} from "./style";
 import {formatSize} from "../../global/format";
 import {ArrowBackIcon, ArrowForwardIcon, LineIcon} from '../../icon';
-import {useAsyncEffect, useTimeoutEffect} from "../../global/react.hooks";
+import {useAsyncEffect, useTimeoutEffect} from "../../global";
 import {omitProperties} from "../../global/object";
 
 const buildComputedStyle = (props: SliderProps) => {
@@ -30,7 +30,7 @@ const SliderItem: FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
 /**
  * 滚动组件，需要注意的滚动组件必须有固定的宽高，否则无法正常滚动
  */
-const Slider_: ForwardRefRenderFunction<HTMLDivElement, SliderProps & React.HTMLAttributes<HTMLDivElement>> = (props, ref) => {
+export const Slider: FC<SliderProps & RH<HTMLDivElement>> = (props) => {
     // 需要显示的索引
     const [current, setCurrent] = React.useState(0)
 
@@ -183,9 +183,9 @@ const Slider_: ForwardRefRenderFunction<HTMLDivElement, SliderProps & React.HTML
     // 将组件的基础类名和传入的类名进行合并
     const className = mixClassName(SliderClassName, props.className)
 
-    const elementProps = omitProperties(props, "width", "height", "aspectRatio", "direction", "arrow", "loop", "autoPlay", "indicator", "duration", "beforeChange", "afterChange", "afterSlideShow")
-    return <StyledSlider {...elementProps} className={className} style={{...props.style, ...buildComputedStyle(props)}}
-                         ref={ref}>
+    const elementProps = omitProperties(props, "width", "height", "aspectRatio", "direction", "arrow", "loop", "autoPlay", "indicator", "duration", "beforeChange", "afterChange", "afterSlideShow", "refs")
+    return <StyledSlider ref={props.refs} {...elementProps} className={className}
+                         style={{...props.style, ...buildComputedStyle(props)}}>
 
         {(props.arrow === undefined || props.arrow) && <div>
             <ArrowForwardIcon className={`${SliderClassName}-btn ${SliderClassName}-next-btn`} onClick={next}/>
@@ -207,5 +207,3 @@ const Slider_: ForwardRefRenderFunction<HTMLDivElement, SliderProps & React.HTML
         </div>
     </StyledSlider>
 }
-
-export const Slider = forwardRef<HTMLDivElement, SliderProps & React.HTMLAttributes<HTMLDivElement>>(Slider_)

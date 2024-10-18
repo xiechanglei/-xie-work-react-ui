@@ -37,4 +37,9 @@ export type InputProps = {
      * 图标
      */
     icon?: string | ReactNode,
+
+    /**
+     * placeholder
+     */
+    placeholder?: string,
 }

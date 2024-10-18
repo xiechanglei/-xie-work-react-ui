@@ -1,14 +1,15 @@
-import React, {CSSProperties, forwardRef, ForwardRefRenderFunction} from "react";
+import React, {CSSProperties, FC} from "react";
 import {InputProps} from "./type";
 import {omitProperties} from "../../global/object";
 import {ThemeConfig, useTheme} from "../../theme";
-import {uiClassName} from "../../global/components";
+import {RH, uiClassName} from "../../global/components";
 import {formatSize} from "../../global/format";
-import {StyledInput} from "./style.ts";
+import {StyledInput} from "./style";
 
 /**
  * Build button class name from props
  * @param props
+ * @param theme
  */
 const buildClassNameFromProps = (props: InputProps & React.HTMLAttributes<HTMLInputElement>, theme: ThemeConfig) => {
     const classNameArr = [uiClassName("input")];
@@ -28,7 +29,7 @@ const buildClassNameFromProps = (props: InputProps & React.HTMLAttributes<HTMLIn
     return classNameArr.join(" ");
 }
 
-const Input_: ForwardRefRenderFunction<HTMLInputElement, InputProps & React.HTMLAttributes<HTMLInputElement>> = (props) => {
+export const Input: FC<InputProps & RH<HTMLInputElement>> = (props) => {
     const theme = useTheme();
     const {kind = "primary"} = props;
     const style: CSSProperties = {};
@@ -36,10 +37,9 @@ const Input_: ForwardRefRenderFunction<HTMLInputElement, InputProps & React.HTML
         style.fontSize = formatSize(props.size);
     }
     const className = buildClassNameFromProps(props, theme);
-    const elementProps = omitProperties(props, "kind", "mode", "size", "shape", "icon", "disabled", "full");
-    return <StyledInput {...elementProps} className={className} style={{...props.style, ...style}}
+    const elementProps = omitProperties(props, "kind", "mode", "size", "shape", "icon", "disabled", "full","refs");
+    return <StyledInput ref={props.refs} {...elementProps} className={className} style={{...props.style, ...style}}
                         mainColor={theme[kind] ?? theme.primary!}/>
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps & React.HTMLAttributes<HTMLInputElement>>(Input_);
 

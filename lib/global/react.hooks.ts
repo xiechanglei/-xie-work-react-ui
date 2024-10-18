@@ -1,5 +1,5 @@
 import {EffectCallback, useEffect, useState} from "react";
-import {randomId} from "./random.ts";
+import {randomId} from "./random";
 
 /**
  * 挂载时执行的effect

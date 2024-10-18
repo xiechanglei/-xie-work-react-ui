@@ -1,9 +1,10 @@
-import {Button, Aside, DataGrid, DataGridFieldInfo, DataGridRecord} from "../../lib";
-import {useState} from "react";
+import {Button, Aside, DataGrid, DataGridFieldInfo, DataGridRecord, Input, Flex} from "../../lib";
 import {randomArrayElement, randomNumber, randomNumberString, randomPhone} from "../utils/random";
 import {randomEnglishName} from "../utils/random.name";
 import {randomAddress} from "../utils/random.address";
-
+import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import EditIcon from '@mui/icons-material/Edit';
 
 const fields: DataGridFieldInfo[] = [
     {
@@ -50,14 +51,13 @@ const loader = async () => {
 }
 
 export const DataGridTest = () => {
-    const [count, setCount] = useState(10)
-    const addCount = () => {
-        setCount(count + 1)
-    }
     return <Aside block>
-        <div>
-            <Button onClick={addCount}>click me,{count}</Button>
-        </div>
+        <Flex spacing={10}>
+            <Button mode={"soft"} kind="success" icon={<ChromeReaderModeIcon/>}></Button>
+            <Button mode={"soft"} kind="secondary" icon={<EditIcon/>}></Button>
+            <Button mode={"soft"} kind="secondary" icon={<LocalOfferIcon/>}></Button>
+            <Input kind={"success"} mode={"outline"} placeholder={"input some word"} />
+        </Flex>
         <DataGrid fields={fields} data={data} loader={loader}/>
     </Aside>
 }

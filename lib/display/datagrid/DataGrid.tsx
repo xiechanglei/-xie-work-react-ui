@@ -1,4 +1,4 @@
-import React, {forwardRef, ForwardRefRenderFunction} from "react";
+import {FC} from "react";
 import {DataGridProps} from "./component.type";
 import {DataGridClassName, DataGridWrapper} from "./style";
 import {omitProperties, withDefault} from "../../global/object";
@@ -7,13 +7,14 @@ import {useDataGriData} from "./hooks";
 import {DataGridFooter} from "./DataGridFooter";
 import {DataGridContent} from "./DataGridContent";
 import {DataGridHeader} from "./DataGridHeader";
+import {RH} from "../../global/components";
 
 /**
  * 表格组件
  * @param props
  * @constructor
  */
-const DataGrid_: ForwardRefRenderFunction<HTMLDivElement, DataGridProps & React.HTMLAttributes<HTMLDivElement>> = (props, ref) => {
+export const DataGrid: FC<DataGridProps & RH<HTMLDivElement>> = (props) => {
     const {result, loadResult} = useDataGriData(props)
     const theme = useTheme()
     const pagination = withDefault(props.pagination, true)
@@ -27,8 +28,8 @@ const DataGrid_: ForwardRefRenderFunction<HTMLDivElement, DataGridProps & React.
         loadResult({pagination, page, pageSize})
     }
 
-    const tableElementProps = omitProperties(props, "fields", "loader", "pagination", "data")
-    return <DataGridWrapper {...tableElementProps} className={DataGridClassName} theme={theme} ref={ref}>
+    const tableElementProps = omitProperties(props, "fields", "loader", "pagination", "data", "refs")
+    return <DataGridWrapper {...tableElementProps} className={DataGridClassName} theme={theme} ref={props.refs}>
         <table>
             <DataGridHeader fields={props.fields}/>
             <DataGridContent fields={props.fields} result={result}/>
@@ -36,5 +37,3 @@ const DataGrid_: ForwardRefRenderFunction<HTMLDivElement, DataGridProps & React.
         <DataGridFooter result={result} pagination={pagination} onPageChange={onPageChange}/>
     </DataGridWrapper>
 }
-
-export const DataGrid = forwardRef<HTMLDivElement, DataGridProps & React.HTMLAttributes<HTMLDivElement>>(DataGrid_)

@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
-import React, {forwardRef, ForwardRefRenderFunction} from "react";
+import {FC} from "react";
 import {FlexProps} from "./type";
 import {formatSize} from "../../global/format";
+import {RH} from "../../global/components";
+import {omitProperties} from "../../global/object";
 
 const StyledFlex = styled.div<FlexProps>`
     display: flex;
@@ -22,13 +24,13 @@ const StyledFlex = styled.div<FlexProps>`
  * @param props
  * @constructor
  */
-const Flex_: ForwardRefRenderFunction<HTMLDivElement, FlexProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
+export const Flex: FC<FlexProps & RH<HTMLDivElement>> = (props) => {
     const convertProps = {...props}
     convertProps.align = (!props.align && props.center) ? "center" : props.align
     convertProps.justify = (!props.justify && props.center) ? "center" : props.justify
-    return <StyledFlex {...convertProps} />
+    const passProps = omitProperties(convertProps, "refs");
+    return <StyledFlex ref={props.refs} {...passProps} />
 }
-export const Flex = forwardRef<HTMLDivElement, FlexProps & React.HTMLAttributes<HTMLDivElement>>(Flex_);
 
 
 /**

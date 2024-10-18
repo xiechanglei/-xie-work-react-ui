@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
-import React, {forwardRef, ForwardRefRenderFunction, HTMLAttributes, useContext} from "react";
+import {FC, useContext} from "react";
 import {ContentShape, FlexAlign, FlexDirection, FlexJustify} from "../../global/enums";
 import {formatSize} from "../../global/format";
 import {ContainerContext} from "../Container";
 import {ThemeConfig, useTheme} from "../../theme";
-import {mixClassName, uiClassName} from "../../global/components";
+import {mixClassName, RH, uiClassName} from "../../global/components";
+import {omitProperties} from "../../global/object";
 
 const componentClassNameBase = uiClassName("aside")
 
@@ -89,23 +90,22 @@ const StyledAside = styled.div<AsideProps & {
     ${props => getCssPropertiesByParentDirection(props.parentDirection, props.size)}
 `
 
-const Aside_: ForwardRefRenderFunction<HTMLDivElement, AsideProps & HTMLAttributes<HTMLDivElement>> = (props, ref) => {
+export const Aside: FC<AsideProps & RH<HTMLDivElement>> = (props) => {
     const containerCtx = useContext(ContainerContext)
     const theme = useTheme();
     const parentDirection = containerCtx.direction;
+    const passProps = omitProperties(props, "refs");
     if (props.layout) {
         const currentDirection = props.flex !== undefined ? props.flex : (parentDirection === "row" ? "column" : "row");
         return <ContainerContext.Provider value={{direction: currentDirection, spacing: containerCtx.spacing}}>
-            <StyledAside ref={ref} {...props} shape={props.shape ?? theme.contentShape}
+            <StyledAside ref={props.refs} {...passProps} shape={props.shape ?? theme.contentShape}
                          parentDirection={parentDirection}
                          gap={containerCtx.spacing} theme={theme}
                          className={mixClassName(props.className, componentClassNameBase)}/>
         </ContainerContext.Provider>
     } else {
-        return <StyledAside ref={ref} {...props} shape={props.shape ?? theme.contentShape}
+        return <StyledAside ref={props.refs} {...passProps} shape={props.shape ?? theme.contentShape}
                             parentDirection={containerCtx.direction} gap={containerCtx.spacing} theme={theme}
                             className={mixClassName(props.className, componentClassNameBase)}/>
     }
 }
-
-export const Aside = forwardRef<HTMLDivElement, AsideProps & React.HTMLAttributes<HTMLDivElement>>(Aside_)

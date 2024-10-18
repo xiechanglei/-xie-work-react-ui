@@ -19,7 +19,7 @@ export const App = () => {
     return (
         <Container flex={"column"} spacing={5}>
             <MainHeaderTest/>
-            <Aside layout>
+            <Aside layout refs={asideRef}>
                 <TreeMenuTest/>
                 <DataGridTest/>
             </Aside>

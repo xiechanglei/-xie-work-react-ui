@@ -7,7 +7,7 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
     line-height: 1.2em;
     cursor: pointer;
     background: ${props => props.mainColor + "e1"};
-    border: 0.1em solid ${props => props.mainColor + "00"};
+    border: 0.15em solid ${props => props.mainColor + "00"};
     color: #ffffff;
     box-sizing: border-box;
     transition: all 200ms ease;
@@ -48,12 +48,12 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
 
     &.btn-outline {
         background: transparent !important;
-        border: 0.1em solid ${props => props.mainColor + "ff"};
+        border: 0.15em solid ${props => props.mainColor + "ff"};
         color: ${props => props.mainColor} !important;
 
         &:hover {
             background: ${props => props.mainColor} !important;
-            border: 0.1em solid ${props => props.mainColor} !important;
+            border: 0.15em solid ${props => props.mainColor} !important;
             color: #ffffff !important;
         }
     }
@@ -61,12 +61,12 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
 
     &.btn-soft {
         background: ${props => props.mainColor}20 !important;
-        border: 0.1em solid ${props => props.mainColor}00 !important;
+        border: 0.15em solid ${props => props.mainColor}00 !important;
         color: ${props => props.mainColor} !important;
 
         &:hover {
             background: ${props => props.mainColor} !important;
-            border: 0.1em solid ${props => props.mainColor} !important;
+            border: 0.15em solid ${props => props.mainColor} !important;
             color: #ffffff !important;
         }
     }
@@ -75,7 +75,7 @@ export const StyledButton = styled.button<{ theme: ThemeConfig,mainColor:string 
     &.btn-link {
         background: transparent !important;
         color: ${props => props.mainColor} !important;
-        border: 0.1em solid ${props => props.mainColor}00 !important;
+        border: 0.15em solid ${props => props.mainColor}00 !important;
 
         &:hover {
             background: ${props => props.mainColor}10 !important;

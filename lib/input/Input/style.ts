@@ -7,7 +7,7 @@ export const StyledInput = styled.input<{mainColor:string}>`
     color: inherit;
     font-family: inherit;
     background: transparent;
-    border: 2px solid ${props => props.mainColor + "00"};
+    border: 0.15em solid ${props => props.mainColor + "00"};
     box-sizing: border-box;
     transition: all 200ms ease;
     -webkit-tap-highlight-color: transparent;
@@ -27,17 +27,17 @@ export const StyledInput = styled.input<{mainColor:string}>`
     //"filled" | "outline" | "soft" | "link"
 
     &.input-filled {
-        border: 2px solid ${props => props.mainColor + "ff"};
+        border: 0.15em solid ${props => props.mainColor + "ff"};
         background: ${props => props.mainColor + "e1"};
         color: #ffffff;
     }
 
     &.input-outline {
-        border: 2px solid ${props => props.mainColor + "ff"};
+        border: 0.15em solid ${props => props.mainColor + "ff"};
     }
 
     &.input-soft {
-        border: 2px solid ${props => props.mainColor + "00"};
+        border: 0.15em solid ${props => props.mainColor + "00"};
     }
 
     &.input-link {
